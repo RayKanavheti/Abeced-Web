@@ -1,0 +1,281 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title -ABECED : Making Learning Easier</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="@Url.Content("~/Content/themes/abeced_main/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/themes/abeced_main/css/bootstrap-responsive.min.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/themes/abeced_main/css/bootstrap-overrides.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/themes/abeced_main/css/theme.css")" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="@Url.Content("~/Content/themes/abeced_main/css/index.css")" type="text/css" media="screen" />
+        <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css' />
+        <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/themes/abeced_main/css/lib/animate.css")" media="screen, projection" />
+        
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        @*@Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")*@
+    </head>
+    <body class="pull_top">
+    <div class="navbar transparent navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="@Url.Content("~/")">
+                <strong>ABECED</strong>
+            </a>
+            <div class="nav-collapse collapse">
+                <ul class="nav pull-right">
+                    <li><a href="@Url.Content("~/")" class="active">Home</a></li>
+                    <li><a href="@Url.Content("~/Home/About")">The System</a></li>
+                   @if (Request.IsAuthenticated )
+                   {
+                    <li><a class="btn-header" href="@Url.Content("~/Flash/GetTopics")">FlashCards</a></li>
+                        if(User.IsInRole("Administrator3"))
+                         {
+                            <li><a class="btn-header" href="@Url.Content("~/Admin/ManageCards")">Manage FlashCards</a></li>
+                         }
+                        <li><a class="btn-header" href="@Url.Content("~/Flash/GetTopics/?type=Fact")">Facts-To-Match</a></li>
+                        <li><a class="btn-header" href="@Url.Content("~/Flash/GetTopics/?type=Quiz")">Quiz</a></li>
+                   }
+                    <li><a href="#">Contact Us</a></li>
+                    @Html.Partial("_LoginPartial")
+                </ul>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <section id="feature_slider" class="">
+        <!-- 
+            Each slide is composed by <img> and .info
+            - .info's position is customized with css in index.css
+            - each <img> parallax effect is declared by the following params inside its class:
+            
+            example: class="asset left-472 sp600 t120 z3"
+            left-472 means left: -472px from the center
+            sp600 is speed transition
+            t120 is top to 120px
+            z3 is z-index to 3
+            Note: Maintain this order of params
+
+            For the backgrounds, you can combine from the bgs folder :D
+        -->
+        <article class="slide" id="showcasing" style="background: url('@Url.Content("~/Content/themes/abeced_main/img/backgrounds/landscape.png')") repeat-x top center;">
+            <img class="asset left-30 sp600 t120 z1" src="@Url.Content("~/Content/themes/abeced_main/img/slides/scene1/macbook.png")" />
+            <div class="info">
+                <h2>Making Learning Easier.</h2>
+            </div>
+        </article>
+        <article class="slide" id="ideas" style="background: url('@Url.Content("~/Content/themes/abeced_main/img/backgrounds/aqua.jpg')") repeat-x top center;">
+            <div class="info">
+                <h2>Learn more facts in less time.</h2>
+            </div>
+            <img class="asset left-480 sp600 t260 z1" src="@Url.Content("~/Content/themes/abeced_main/img/slides/scene2/left.png")" />
+            <img class="asset left-210 sp600 t213 z2" src="@Url.Content("~/Content/themes/abeced_main/img/slides/scene2/middle.png")" />
+            <img class="asset left60 sp600 t260 z1" src="@Url.Content("~/Content/themes/abeced_main/img/slides/scene2/right.png")" />
+        </article>
+        <article class="slide" id="tour" style="background: url('@Url.Content("~/Content/themes/abeced_main/img/backgrounds/color-splash.jpg')") repeat-x top center;">
+            <img class="asset left-472 sp650 t210 z3" src="@Url.Content("~/Content/themes/abeced_main/img/slides/scene3/ipad.png")" />
+            <img class="asset left-365 sp600 t270 z4" src="@Url.Content("~/Content/themes/abeced_main/img/slides/scene3/iphone.png")" />
+            <img class="asset left-350 sp450 t135 z2"  src="@Url.Content("~/Content/themes/abeced_main/img/slides/scene3/desktop.png")" />
+            <img class="asset left-185 sp550 t220 z1"  src="@Url.Content("~/Content/themes/abeced_main/img/slides/scene3/macbook.png")" />
+            <div class="info">
+                <h2>Fully Responsive <br /></h2> <h3>Works On all devices </h3>
+                <a href="#">Take a tour</a>
+            </div>
+        </article>
+        <article class="slide" id="responsive" style="background: url('@Url.Content("~/Content/themes/abeced_main/img/backgrounds/indigo.jpg')") repeat-x top center;">
+            <img class="asset left-472 sp600 t120 z3"  src="@Url.Content("~/Content/themes/abeced_main/img/slides/scene4/html5.png")" />
+            <img class="asset left-190 sp500 t120 z2"  src="@Url.Content("~/Content/themes/abeced_main/img/slides/scene4/css3.png")" />
+            <div class="info">
+                <h2>
+                    Track <strong>your Study Progress</strong>
+                    In Realtime
+                </h2>                
+            </div>
+        </article>        
+    </section>
+    <div id="showcase">
+        <div class="container">
+        <div class="section_header">
+                <h3>Our Services</h3>
+            </div>            
+            <div class="row feature_wrapper">
+                <!-- Features Row -->
+                <div class="features_op1_row" style="text-align:left">
+                    <br /><br />
+                    <p>
+                    Abeced is a web base learning system which allows you to learn more facts in a shorter time and retain those facts for longer periods of time. <br />
+                    Facts you find difficult to recall will be repeated more often, creating better access to long term memory.
+
+                    </p>
+                    <!-- Feature 
+                    <div class="span4 feature first">
+                        <div class="img_box">
+                            @*<a href="services.html">
+                                <img src="img/service1.png" />
+                                <span class="circle"> 
+                                    <span class="plus">&#43;</span>
+                                </span>
+                            </a>*@
+                            
+
+                        </div>-->
+                        <div class="text">
+                            <h6></h6>
+                            <p>
+                               <br />
+                                <br />
+                                <br />
+
+                            </p>
+                        </div>
+                    <div id="msgofday" style="font-weight:bold">
+                        <span style="color:#1b4774"> MESSAGE OF THE DAY</span> :&nbsp; &nbsp; @Abeced.UI.Globals.MessageOD 
+                    </div>
+                    </div>
+                    <!-- Feature --
+                    <div class="span4 feature">
+                        <div class="img_box">
+                           @* <a href="services.html">
+                                <img src="img/service2.png" />
+                                <span class="circle"> 
+                                    <span class="plus">&#43;</span>
+                                </span>
+                            </a>*@
+                        </div>
+                        <div class="text">
+                            <h6>Making Learning Fun</h6>
+                            <p>
+                                There are many variations of passages of generators on the  embarrassing hidden in   content here making it look like.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Feature
+                    <div class="span4 feature last">
+                        <div class="img_box">
+                            @*<a href="services.html">
+                                <img src="img/service3.png" />
+                                <span class="circle"> 
+                                    <span class="plus">&#43;</span>
+                                </span>
+                            </a>*@
+                        </div>
+                        <div class="text">
+                            <h6>Remember fact for longer</h6>
+                            <p>
+                                There are many variations of passages of generators on the  embarrassing hidden in   content here making it look like.
+                            </p>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            @RenderBody()
+        </div>
+    </div>
+
+    <!-- starts footer -->
+    <footer id="footer">
+        <div class="container">
+            
+            <div class="row credits">
+                <div class="span12">
+                    <div class="row social">
+                        <div class="span12">
+                            <a href="#" class="facebook">
+                                <span class="socialicons ico1"></span>
+                                <span class="socialicons_h ico1h"></span>
+                            </a>
+                            <a href="#" class="twitter">
+                                <span class="socialicons ico2"></span>
+                                <span class="socialicons_h ico2h"></span>
+                            </a>
+                            <a href="#" class="gplus">
+                                <span class="socialicons ico3"></span>
+                                <span class="socialicons_h ico3h"></span>
+                            </a>
+                            <a href="#" class="flickr">
+                                <span class="socialicons ico4"></span>
+                                <span class="socialicons_h ico4h"></span>
+                            </a>
+                            <a href="#" class="pinterest">
+                                <span class="socialicons ico5"></span>
+                                <span class="socialicons_h ico5h"></span>
+                            </a>
+                            <a href="#" class="dribble">
+                                <span class="socialicons ico6"></span>
+                                <span class="socialicons_h ico6h"></span>
+                            </a>
+                            <a href="#" class="behance">
+                                <span class="socialicons ico7"></span>
+                                <span class="socialicons_h ico7h"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row copyright">
+                        <div class="span12">
+                            © 2015 ABECED. All rights reserved.
+                        </div>
+                    </div>
+                </div>            
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    @*<script src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")" type="text/javascript"></script>*@
+    <script src="@Url.Content("~/Scripts/jquery-2.1.4.min.js")" type="text/javascript"></script>
+    <script  src="@Url.Content("~/Content/themes/abeced_main/js/bootstrap.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/themes/abeced_main/js/theme.js")" type="text/javascript"></script>
+
+    <script type="text/javascript" src="@Url.Content("~/Content/themes/abeced_main/js/index-slider.js")"></script>	
+</body>
+
+    @*<body>
+        <header>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p class="site-title">@Html.ActionLink("your logo here", "Index", "Home")</p>
+                </div>
+                <div class="float-right">
+                    <section id="login">
+                        @Html.Partial("_LoginPartial")
+                    </section>
+                    <nav>
+                        <ul id="menu">
+                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                            <li>@Html.ActionLink("About", "About", "Home")</li>
+                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <div id="body">
+            @RenderSection("featured", required: false)
+            <section class="content-wrapper main-content clear-fix">
+                @RenderBody()
+            </section>
+        </div>
+        <footer>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
+                </div>
+            </div>
+        </footer>
+
+        @Scripts.Render("~/bundles/jquery")
+        @RenderSection("scripts", required: false)
+    </body>*@
+</html>

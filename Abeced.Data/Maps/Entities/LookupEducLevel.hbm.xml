@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Abeced.Data" assembly="Abeced.Data">
+    <class name="LookupEducLevel" table="abeced.lookup_educ_level" >
+        <id name="EducLevelId" column="educ_level_id" type="Int32" >
+            <generator class="assigned" />
+        </id>
+        <property name="EducLevel" column="educ_level" type="String" not-null="true" length="20" /> 
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,308 @@
+﻿@model Abeced.UI.Models.CategoryModel
+
+@using (Ajax.BeginForm("EditCategory", "Admin",
+            new AjaxOptions
+            {
+                HttpMethod = "Post",
+                UpdateTargetId = "targetDivMsg3",
+                OnSuccess = "OnSuccessCat",
+                OnFailure = "OnFailureCat",
+                InsertionMode = InsertionMode.Replace
+            },
+            new
+            {
+                @id = "submitformCat"
+            }))
+{
+        @Html.ValidationSummary(true)
+
+        <div style="text-align: center">
+    
+            <table width="100%" cellspacing="0" style="margin: 0 auto; text-align: left">
+    
+                <tr>
+    
+                    <td colspan="3" style="text-align: center" valign="middle">
+    
+
+                    </td>
+    
+                </tr>
+    
+                <tr>
+    
+                    <td colspan="3">
+    
+                        <table cellpadding="10" cellspacing="10" style="border-radius: 5px 5px 5px 5px; border: 1px solid #CCCCCC;
+                        margin-top: 5px">
+                        <tr align="left">
+                            <td colspan="2">
+                                <span style="font-weight: bold">All (*) are Mandatory Fields.</span>
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td colspan="2">
+                                <hr style="color: #77BACE; margin: -5px 0 -10px 0;" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" valign="middle">
+                                <table cellpadding="2" cellspacing="2" style="width: 540px; border: none; margin-left: 0px">
+                                    <tbody style="border: 0px">
+                                        <tr>
+                                            <td style="text-align: right; width: 200px; color: #1B548D; font-weight: bold" >
+                                                <p>
+                                                    * Category Type
+                                                </p>
+                                            </td>
+                                            <td style="padding-left:20px">
+                                                <p>
+                                                    <input type="radio" name="CatType" value="0" class="k-input" @(Model.CatType==0? "checked" :"") /> Main/Parent
+                                                    &nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" name="CatType" value="1" @(Model.CatType==1? "checked" :"") /> Sub Category
+                                                </p>
+                                             </td>
+                                        </tr>
+                                        <tr id="trParentCategory" style="display:none">
+                                            <td style="text-align: right; width: 200px; color: #1B548D; font-weight: bold" valign="top">
+                                                <p>
+                                                    * Parent Category
+                                                </p>
+                                            </td>
+                                            <td>
+                                                
+                                                    <div class="section">
+                                                        <div id="dropDownTreeView" style="width:265px">
+                                                        </div>
+                                                        @*<div id="userSelection" style="margin-top:20px;" class="highlight-section k-block">    </div>*@
+                                                        <input type="hidden" id="ParentId" name="ParentId" value="@Model.ParentId" />
+                                                        <input type="hidden" id="CatLevel" name="CatLevel" value="@Model.CatLevel" />
+                                                        <input type="hidden" id="CatId" name="ParentId" value="@Model.CatId" />
+
+                                                    </div>
+                                                    <span id="result" class="k-widget k-tooltip k-tooltip-validation k-invalid-msg field-validation-error"  style="margin-left:20px">
+                                                        <span class="k-icon k-warning"> </span>
+                                                    </span>
+                                            </td>
+                                        </tr>
+                                                                               
+
+                                        <tr>
+                                            <td style="text-align: right; width: 200px; color: #1B548D; font-weight: bold" valign="top">
+                                                * Category/Subject Name
+                                            </td>
+                                            <td style="padding-left:20px">
+                                            @Html.TextBoxFor(m => m.CategoryTitle, new { @style = "radius:4px;width:265px;height:25px", @required="required",@validationMessage="Category/ Subject name required",@class="k-text k-input"})
+                                            
+                                            </td>
+                                        </tr>
+                                       
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr align="left">
+
+
+                <td align="center" colspan="2">
+                    <div id="targetDivMsg3" class="rssedMsg3">
+                    </div>
+                </td>
+            </tr>
+            <tr align="left">
+                <td align="left" style="padding-bottom: 10px">
+                    <label for="name" style="color: Black">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                </td>
+                <td align="center" style="padding-bottom: 12px">
+                    <hr />
+                    <button class="k-button" id="btnSubmitCat" name="btnSubmitCat" type="submit" style="width: 150px;
+                        font-weight: bold; font-size: 12px;">
+                        Save
+                    </button>
+                    <button id="btnAddAnotherCat" type="reset" name="btnAddAnotherCat" class="k-button"
+                    style="width: 150px">
+                    Add Another</button>
+
+                    <button class="k-button" id="btnCloseCat" name="btnCloseCat" style="width: 150px; 
+                        font-weight: bold; font-size: 12px" type="button">
+                        Close</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+}
+
+
+
+<script type="text/javascript">
+    $("#btnAddAnotherCat").hide();
+    $("#result").hide();
+
+    $("#btnCloseCat").click(function (e) {
+        e.preventDefault();
+        $("#targetDivMsg3").empty();
+
+        $(".k-window-content").each(function () {
+            $(this).data("kendoWindow").close();
+    });
+});   
+
+    $("#btnAddAnotherCat").click(function () {
+        $("#btnSubmitCat").show();
+        $("#targetDivMsg3").empty();
+        $("#btnAddAnotherCat").hide();
+
+});
+
+    var validatable = $("#submitformCat").kendoValidator({
+rules: {
+    testRule1: function (input) {
+            if (!input.is(":hidden")) {
+                return $.trim(input.val()) !== "";
+            }
+            return true;
+        },
+           /* testRule2: function (input) {
+                return $.trim(input.val()) !== "";
+            }*/
+        },
+        messages: {
+    testRule1: "This field is Required",
+            //testRule2: "Your name must be Foo"
+        }
+}).data("kendoValidator");
+
+    $("#btnSubmitCat").click(function (e) {
+        e.preventDefault();
+        $("#targetDivMsg3").empty();
+        $("#result").hide();
+    var validator = $("#submitformCat").kendoValidator().data('kendoValidator');
+    var anyError = false;
+    $("#submitformCat").find("input").each(function () {
+
+        if (!($(this).is(":hidden")) && !validator.validateInput($(this))) {
+            console.log($(this));
+            //if (!validator.element(this)) { // validate every input element inside this step
+            anyError = true;
+        }
+        //if($("#ParentId").da)
+
+    });
+    if ($("input[name='CatType']:checked").val() == 1 && $("#ParentId").val() == "")
+    {
+        $("#result").text("Select Parent Category");
+        $("#result").show();
+        anyError = true;
+        return false;
+    }
+    if (!anyError) {
+
+            $.ajax({
+        type: "POST",
+                traditional: true,
+                url: "../Admin/AddCategory",
+                //data: { function_param: $("form").serialize() }
+                data: $("form").serialize(),
+                success: function (response) {
+                    //alert("Form saved successfully. Redirecting ..");
+                    if (response.rtnmsg == "success") {
+                        $('<span class="alert alert-success" style="display: block;font-size: 100%"><b>Success : Data Saved Successfully. </b> </span>').appendTo('.rssedMsg3');
+                        $("#btnSubmitCat").hide();
+                        $("#btnAddAnotherCat").show();
+                        var grid = $("#CCatg").data("kendoGrid");
+                        grid.dataSource.read();
+                        grid.refresh();
+
+                    }
+                    else if (response.rtnmsg == "fail") {
+                        $('<span class="alert alert-error" style="display: block;font-size: 100%"><b>Error: Unable to Save. Please try Again</b> </span>').appendTo('.rssedMsg3');
+                    }
+                    else {
+                        $('<span class="alert alert-error" style="display: block;font-size: 100%"><b>Unknown Error: Please try Again</b> </span>').appendTo('.rssedMsg3');
+                    }
+            }
+        });
+
+    } else {
+        return false;
+    }
+
+});
+    var cattype = "@Model.CatType";
+    if (cattype == 1)
+    {
+        $("#trParentCategory").show();
+    }
+    else {
+        $("#trParentCategory").hide();
+    }
+
+    $("input:radio[name='CatType']").on("click", function () {
+    //console.log($(this));
+    if ($(this).is(':checked') && $(this).val() == 1)
+        {
+            $("#trParentCategory").show();
+    }
+        else {
+            $("#trParentCategory").hide();
+
+    }
+});
+
+</script>
+<script>
+    
+</script>
+<script>
+    homogeneous = new kendo.data.HierarchicalDataSource({
+        transport: {
+            read: {
+                url: "/Admin/GetCategoryListH",
+                dataType: "json"
+            }
+        },
+        schema: {
+            model: {
+                id: "Id",
+                hasChildren: "HasChildren",
+                children: "Children"
+            }
+        }
+    });
+/*
+$("#treeview").kendoTreeView({
+    dataSource: homogeneous,
+    dataTextField: "Name",
+    dataValueField: "Id",
+    select: onSelect2,
+});
+*/
+</script>
+ <!-- Libs 
+<script src="@Url.Content("~/Scripts/ext/kendo.2013.jquery-1.9.1.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/ext/kendo.2013.all.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/libs/kendo.web.ext.js")"></script>-->
+
+<script>
+
+    var dropDownTreeView = $("#dropDownTreeView").kendoExtDropDownTreeView({
+        treeview: {
+           dataSource: homogeneous,
+           dataTextField: "Name",
+           dataValueField: "Id",
+          select: onSelect2,
+        }
+    }).data("kendoExtDropDownTreeView");
+
+    dropDownTreeView.bind("select", function (e) {
+        $("#userSelection").prepend(kendo.format("<div>You Selected: {0}</div>", $(e.node).children("div").text()));
+    });
+
+    $(".k-dropdown-wrap.k-state-default").prop("style", "width:236px");
+  
+</script>
+

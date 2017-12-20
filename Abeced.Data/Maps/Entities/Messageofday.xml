@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Abeced.Data" assembly="Abeced.Data">
+    <class name="Messageofday" table="abeced.messageofday" >
+        <id name="Identification" column="id" type="Int32">
+            <generator class="assigned" />
+        </id>
+        <property name="Msgdate" column="msgdate" type="DateTime" not-null="false" /> 
+        <property name="Msgtext" column="msgtext" type="String" not-null="false" length="512" /> 
+        <property name="Entryby" column="entryby" type="String" not-null="false" length="255" /> 
+        <property name="Entrydate" column="entrydate" type="DateTime" not-null="false" />        
+    </class>
+  
+</hibernate-mapping>
+

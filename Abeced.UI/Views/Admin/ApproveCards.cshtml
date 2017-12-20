@@ -1,0 +1,105 @@
+﻿@model Abeced.UI.Models.FlashCardModel
+@*@using (Ajax.BeginForm("ApproveCards", "Admin",
+            new AjaxOptions
+            {
+                HttpMethod = "Post",
+                UpdateTargetId = "targetDivMsg",
+                OnSuccess = "OnSuccessMsg",
+                OnFailure = "OnFailureMsg",
+                InsertionMode = InsertionMode.Replace
+            },
+            new
+            {
+                @id = "submitformMsg"
+            }))
+{
+    @Html.ValidationSummary(true)
+
+    *@
+<div style="text-align: center">
+        <table width="100%" cellspacing="0" style="margin: 0 auto; text-align: left">
+            <tr>
+                <td colspan="3" style="text-align: center" valign="middle">
+
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <table cellpadding="10" cellspacing="10" style="border-radius: 5px 5px 5px 5px; border: 1px solid #CCCCCC;
+                        margin-top: 5px">
+                        <tr align="left">
+                            <td colspan="2">
+                                <span style="font-weight: bold">ARE YOU SURE YOU WANT TOAPPROVE THE SELECTED CARDS ?</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr align="left">
+               
+                <td align="center" colspan="2">
+                    <div id="targetDivMsg" class="rssedMsg">
+                    </div>
+                </td>
+            </tr>
+            <tr align="left">
+                <td align="left" style="padding-bottom: 10px">
+                    <label for="name" style="color: Black">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                </td>
+                <td align="center" style="padding-bottom: 12px">
+                    <hr />
+                    <button class="k-button" id="btnApprovalsubmit" name="btnApprovalsubmit" type="submit" style="width: 150px;
+                        font-weight: bold; font-size: 12px;">
+                        YES
+                    </button>
+
+                    <button class="k-button" id="btnCloseMsg" name="btnCloseMsg" style="width: 150px;
+                        font-weight: bold; font-size: 12px">
+                        NO</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+@*}*@
+
+<script type="text/javascript">
+    
+
+    $("#btnCloseMsg").click(function (e) {
+        e.preventDefault();
+
+        $(".k-window-content").each(function () {
+            $(this).data("kendoWindow").close();
+        });
+    });
+
+    
+
+    $("#btnApprovalsubmit").click(function () {
+        var grid = $("#fgrid").data("kendoGrid");
+        var data = {};
+        // mvc model binder requires arrays to be in specific format
+        grid.tbody
+            .find(":checked")
+            .each(function (idx) {
+                //data.push($(this).val());
+                data["selectedIds[" + idx + "]"] = $(this).val();
+            });
+
+        //post the selected items and the selected value
+        $.post("@Url.Action("ApproveCards")",
+                data
+
+            );
+        
+            var grid = $("#fgrid").data("kendoGrid");
+            grid.dataSource.read();
+            grid.refresh();
+            $(".k-window-content").each(function () {
+                $(this).data("kendoWindow").close();
+            });
+        });
+
+</script>

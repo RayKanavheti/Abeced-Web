@@ -1,0 +1,72 @@
+﻿@model Abeced.UI.Models.StatsModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_adminLayoutProfile.cshtml";
+}
+
+
+
+@section astats
+{
+<div class="row">
+	<div class="col-sm-3">
+	
+		<div class="tile-stats tile-red">
+			<div class="icon"><i class="entypo-users"></i></div>
+			<div class="num" data-start="0" data-end="@Membership.GetAllUsers().Count" data-postfix="" data-duration="1500" data-delay="0">0</div>
+			
+			<h3>Registered users</h3>
+			<p>so far on ABECED website.</p>
+		</div>
+		
+	</div>
+	
+	<div class="col-sm-3">
+	
+		<div class="tile-stats tile-green">
+			<div class="icon"><i class="entypo-chart-bar"></i></div>
+			<div class="num" data-start="0" data-end="1" data-postfix="" data-duration="1500" data-delay="600">0</div>
+			
+			<h3>Daily Visitors</h3>
+			<p>this is the current online users.</p>
+		</div>
+		
+	</div>
+	
+	<div class="col-sm-3">
+	
+		<div class="tile-stats tile-aqua">
+			<div class="icon"><i class="entypo-docs"></i></div>
+			<div class="num" data-start="0" data-end="@Model.AllCards" data-postfix="" data-duration="1500" data-delay="1200">0</div>
+			
+			<h3>Total Flash Cards</h3>
+			<p>contributed as at now.</p>
+		</div>
+		
+	</div>
+	
+	<div class="col-sm-3">
+	
+		<div class="tile-stats tile-blue">
+			<div class="icon"><i class="entypo-rss"></i></div>
+			<div class="num" data-start="0" data-end="@Model.CardsPendingApprove" data-postfix="" data-duration="1500" data-delay="1800">0</div>
+			
+			<h3>Flashcards Pending Approvals</h3>
+			<p>on our site right now.</p>
+		</div>
+		
+	</div>
+</div>
+ 
+}
+
+<div class="list-group">
+								<a class="list-group-item active" href="#">
+									<h4 class="list-group-item-heading">WELCOME! ABECED ADMIN</h4>
+									
+									<h3><p class="list-group-item-text">Abeced is a web base learning system which allows you to learn more facts in a shorter time and retain those facts for longer periods of time.
+<br />Facts you find difficult to recall will be repeated more often, creating better access to long term memory.</p></h3>
+								</a>
+							</div>
+
+    

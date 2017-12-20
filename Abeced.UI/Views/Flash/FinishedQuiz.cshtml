@@ -1,0 +1,44 @@
+﻿@{
+    Layout = null;
+}
+
+
+<div class="section_header" style="margin:20px 0 20px 0">
+                <h3>End Of Quiz</h3>
+            </div>
+
+<br />
+<div class="section_header" style="margin:30px 0 30px 0">
+<h4>Click Done to end the Session </h4></div>
+<p id="percentage">0.0%</p>
+<br />
+<br />
+
+
+    <input type="submit" id="next-step" value="Done" class="greyBtn smallBtn allRounded"
+       style="display: inline;height: 40px; line-height: 40px; width:120px ; margin-bottom:75px" onclick="doFunction();">
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            data: { sessid: sesid },
+            dataType: "json",
+            url: '/Flash/DeleteSession/',
+            success: function (data) {
+                if (data.delans == true) {
+
+                }
+                else {
+                    alert('Error : Unable to DELETE session at this time ');
+                }
+            },
+            error: function (data) {
+                alert('Error : Unknown ERROR occured. Please restart session at this time');
+            }
+
+        });
+
+    });
+</script>

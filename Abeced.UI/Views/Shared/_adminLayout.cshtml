@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title -ABECED : Making Learning Easier</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="@Url.Content("~/Content/themes/abeced_main/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/themes/abeced_main/css/bootstrap-responsive.min.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/themes/abeced_main/css/bootstrap-overrides.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/themes/abeced_main/css/theme.css")" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/themes/abeced_main/css/lib/animate.css")" media="screen, projection" />
+        
+        <link rel="stylesheet" href="@Url.Content("~/Content/themes/abeced_main/css/about.css")" type="text/css" media="screen" />
+        <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css' />
+        
+        <link href="@Url.Content("~/Content/kendo/kendo.common.min.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/kendo/kendo.default.min.css")" rel="stylesheet" type="text/css" />
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        @*@Styles.Render("~/Content/css")*@
+        @*@Scripts.Render("~/bundles/modernizr")*@
+        @RenderSection("css", false)
+
+        @*<script src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")" type="text/javascript"></script>*@
+        <script src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")" type="text/javascript"></script>
+    </head>
+    <body>
+    <div class="navbar navbar-inverse navbar-static-top" >
+      <div class="navbar-inner" style="background: url('@Url.Content("~/Content/themes/abeced_main/img/backgrounds/aqua.jpg')") repeat-x top center;">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="@Url.Content("~/")">
+                <strong>ABECED</strong>
+            </a>
+            <div class="nav-collapse collapse">
+                <ul class="nav pull-right">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li><a href="@Url.Content("~/Home/About")" >About Us</a></li>
+                    
+                     @if (Request.IsAuthenticated)
+                   {
+                    <li><a class="btn-header" href="@Url.Content("~/Flash/Index")">FlashCards</a></li>
+                    <li><a class="btn-header" href="@Url.Content("~/Admin/ManageCards")">Manage FlashCards</a></li>
+                   }
+                    <li><a href="#">Contact Us</a></li>
+                    @Html.Partial("_LoginPartial")
+                </ul>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="aboutus" style="min-height:100%">
+        <div class="container">@*
+        <div class="section_header">
+            <h3>@RenderSection("featured", required: false)</h3>
+            </div>*@
+        @RenderBody()
+            @*<div class="section_header">
+                <h3>About Us</h3>
+            
+            <div class="row">
+                <div class="span6 intro">
+                    <h6>There are many variations of passages Lorem Ipsum available, injected generators on the hidden.</h6>
+                    <p>
+                        There are many variations of passages of Lorem Ipsum available, injected 
+                        generators on the  embarrassing hidden in the middle all the dictionary making it look like readable English. Many desktop publishing packages and web page editors.
+                        <br /><br />
+                        There are many variations of passages of Lorem Ipsum available, but the ndictionary of over 200 Latin words, combined with a handful of models The generated Lorem Ipsum is therefore always free from repetition, the injected humour, or non-characteristic words etc.</p>
+                </div>
+                <div class="span6 flexslider">
+                      <ul class="slides">
+                        <li>
+                          <img src="img/about_slide1.jpg" />
+                        </li>
+                        <li>
+                          <img src="img/about_slide1.jpg" />
+                        </li>
+                        <li>
+                          <img src="img/about_slide1.jpg" />
+                        </li>
+                      </ul>
+                </div>
+            </div>*@
+        </div>
+    </div>
+
+    <!-- starts footer -->
+    <footer id="footer">
+        <div class="container">
+            @*<div class="row info">
+                <div class="span6 residence">
+                    <ul>
+                        <li>2301 East Lamar Blvd. Suite 140. City, Arlington.</li>
+                        <li>United States, Zip Code TX 76006.</li>
+                    </ul>
+                </div>
+                <div class="span5 touch">
+                    <ul>
+                        <li><strong>P.</strong> 1 817 274 2933</li>
+                        <li><strong>E.</strong><a href="#"> bootstrap@twitter.com</a></li>
+                    </ul>
+                </div>
+            </div>*@
+            <div class="row credits">
+                <div class="span12">
+                    <div class="row social">
+                        <div class="span12">
+                            <a href="#" class="facebook">
+                                <span class="socialicons ico1"></span>
+                                <span class="socialicons_h ico1h"></span>
+                            </a>
+                            <a href="#" class="twitter">
+                                <span class="socialicons ico2"></span>
+                                <span class="socialicons_h ico2h"></span>
+                            </a>
+                            <a href="#" class="gplus">
+                                <span class="socialicons ico3"></span>
+                                <span class="socialicons_h ico3h"></span>
+                            </a>
+                            <a href="#" class="flickr">
+                                <span class="socialicons ico4"></span>
+                                <span class="socialicons_h ico4h"></span>
+                            </a>
+                            <a href="#" class="pinterest">
+                                <span class="socialicons ico5"></span>
+                                <span class="socialicons_h ico5h"></span>
+                            </a>
+                            <a href="#" class="dribble">
+                                <span class="socialicons ico6"></span>
+                                <span class="socialicons_h ico6h"></span>
+                            </a>
+                            <a href="#" class="behance">
+                                <span class="socialicons ico7"></span>
+                                <span class="socialicons_h ico7h"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row copyright">
+                        <div class="span12">
+                            © 2015 ABECED. All rights reserved.
+                        </div>
+                    </div>
+                </div>            
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    
+    @*<script  src="@Url.Content("~/Content/themes/abeced_main/js/bootstrap.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/themes/abeced_main/js/theme.js")" type="text/javascript"></script>*@
+
+</body>
+
+</html>

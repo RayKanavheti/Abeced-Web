@@ -1,0 +1,52 @@
+﻿@{
+    Layout = null;
+}
+
+
+<div class="section_header" style="margin:20px 0 20px 0">
+                <h3>End Of Cards</h3>
+            </div>
+
+<br />
+<div class="section_header" style="margin:30px 0 20px 0">
+<h5>Click Done to Save & Close the Session </h5></div>
+<br />
+<br />
+
+
+    <input type="submit" id="next-step" value="Done" class="greyBtn smallBtn allRounded"
+           style="display: inline;height: 40px; line-height: 40px; width:120px ; margin-bottom:20px">
+    
+<button id="btnReverseCard" class="greyBtn smallBtn allRounded"
+           style="display: inline;height: 40px; line-height: 40px; width:120px ; margin-bottom:20px"> Repeat </button> 
+<div id="divRptOptions" style="font-size:10px;margin-bottom:5px">
+    <p style="font-size:13px;"><input type="radio" value="0" name="rptType" /> Answer First </p>
+    <p style="font-size:12px;"><input type="radio" value="1" name="rptType" /> Question First </p>
+</div>
+
+<script>
+    $('.progress_bar').css("padding-bottom", "90px");
+    $("#divRptOptions").hide();
+    $("#amazingaudioplayer-1").hide();
+    $("#comboRepeatCard").prop('disabled', 'disabled');
+
+    $('#btnReverseCard').click(function (e) {
+        e.preventDefault();
+        $('.progress_bar').css("padding-bottom", "20px");
+        $("#divRptOptions").show();
+
+    });
+
+    $("input[name='rptType']").change(function () {
+
+        var cid ='@TempData["cid"]';
+        var sid ='@TempData["sid"]' ;
+        var sub = '@TempData["sub"]';
+
+        //var cid = 'HttpContext.Current.Request.QueryString["cid"]';
+        //var sid = 'HttpContext.Current.Request.QueryString["sid"]';
+        //var sub = 'HttpContext.Current.Request.QueryString["sub"]';
+        window.location.href = "/Flash/ReviseCard?cid=" + cid + "&sid=" + sid + "&sub="+sub;
+
+    });
+</script>

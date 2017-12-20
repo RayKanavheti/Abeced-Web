@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Abeced.Data" assembly="Abeced.Data">
+    <class name="Person" table="abeced.persons" >
+        <id name="Userid" column="userid" type="String" length="50" >
+            <generator class="assigned" />
+        </id>
+        <property name="Lastname" column="lastname" type="String" not-null="false" length="50" /> 
+        <property name="Firstname" column="firstname" type="String" not-null="false" length="50" /> 
+        <property name="Address" column="address" type="String" not-null="false" /> 
+        <property name="Email" column="email" type="String" not-null="false" length="50" /> 
+        <property name="Title" column="title" type="String" not-null="false" length="50" /> 
+        <property name="AgeGroup" column="age_group" type="String" not-null="false" length="10" /> 
+        <property name="Occupation" column="occupation" type="String" not-null="false" length="20" /> 
+        <property name="EducLevel" column="educ_level" type="String" not-null="false" length="20" /> 
+        <property name="Sex" column="sex" type="String" not-null="false" length="8" /> 
+        <property name="UserPreferencesXml" column="user_preferences_xml" type="String" not-null="false" /> 
+    </class>
+</hibernate-mapping>

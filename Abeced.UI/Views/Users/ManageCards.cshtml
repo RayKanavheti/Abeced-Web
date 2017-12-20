@@ -1,0 +1,359 @@
+﻿@model IEnumerable<Abeced.UI.Models.FlashCardModel>
+@{
+    ViewBag.Title = "ManageCards";
+    //Layout = "~/Views/Shared/_adminLayout.cshtml";
+    Layout = "~/Views/Shared/_adminLayoutProfile.cshtml";
+}
+<style type="text/css">
+        
+    span.k-Delete {
+			background:url('@Url.Content("~/Content/icons/delete.png")') center center;
+		}
+		.k-grid .k-button-icontext .k-icon {
+			margin: 0;
+			vertical-align: middle;
+		}
+		.k-grid tbody .k-button {
+			min-width: 16px;
+			/*width: 16px*/;
+		}
+
+    /*Style build-in commands*/
+    .abutton,
+    div.k-grid .k-grid-delete,
+    div.k-grid .k-grid-cancel,
+    div.k-grid .k-grid-update  {
+        display:inline-block;
+        width:16px;
+        height:16px;
+        text-align:center;
+        text-indent:-444px;
+        min-width:0;
+        border:0;
+    }
+
+    /*Style custom buttons*/
+    .abutton.delete {
+        background: url('@Url.Content("~/Content/icons/delete.png")');
+    }
+     table {
+    border-collapse:separate;
+    border-spacing: 2px;
+}
+    td, th {
+    padding: 2px;
+}
+    .k-block > .k-header, .k-window-titlebar {
+    height: 2.1em;
+    }
+</style>
+
+@using Kendo.Mvc.UI
+@{int[] pages = { 20, 50, 100};}
+
+<div style="margin-left: 0px">
+
+<div align="center" style="font-size:160%; color: #767d81;  font-family: 
+    Trebuchet MS,Verdana,Helvetica,Arial,sans-serif;;margin-bottom:0px;padding-bottom:0px" >
+         
+       Flash Cards
+       @* <hr style=" border-color:#a1a3a4; width: 85%;margin-left: 5%;margin-right: 10%;margin-bottom:0px;padding-bottom:0px" />
+*@
+        </div>
+    <table align="center" style="width:100%">
+        <tr>
+            <td>
+            
+                
+                <button type="button" class="k-button" id="btnAddMsg" style="font-weight: bold; font-size: 12px">
+                    
+                    Click Here to ADD a New FlashCard </button>  <button type="button" class="k-button" id="btnAddCat" style="font-weight: bold; font-size: 12px">
+                    
+                    Click Here to ADD a New Course / Subject </button>
+    @(Html.Kendo().Grid(Model)
+    .Name("FlashCards")
+    .HtmlAttributes(new { style="width:100%"})
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.CardId).Visible(false);
+        columns.Bound(p => p.Question);
+        columns.Bound(p => p.Answer);
+        columns.Bound(p => p.FactSheet);
+        columns.Bound(p => p.Approved).ClientTemplate("<input type='checkbox' #= Approved ? checked='checked': '' # class='chkbx' />");
+        columns.Command(command => command.Custom("Edit").Click("getFlashCard"))
+            .HtmlAttributes(new { @style = "text-align: left; font-size:12px" }).Width(80);
+        columns.Command(command => command.Custom("Delete").Click("deleteCard"))
+                                                 .HtmlAttributes(new { @style = "text-align: left; font-size:11px", @title = "Delete" }).Width(50);
+
+
+
+    })
+             .ToolBar(toolbar =>
+                        toolbar.Template(Html.Kendo().DropDownList().Name("catid").DataTextField("catname").DataValueField("catid")
+                        .Events(e => e.Change("onChange"))
+                        .OptionLabel("Select Subject Area...")
+                        .DataSource(source => source
+                        .Read(read => read.Action("GetAllCategory", "Users"))
+                        .ServerFiltering(true))
+
+                            .HtmlAttributes(new { style = "float:right; width:210px" }).ToHtmlString())
+                 )
+            .Events(events => events.DataBound("onDataBound"))
+        .Pageable(pager => pager
+                .PageSizes(pages))
+                .Sortable()
+            //.Scrollable(scrolling => scrolling.Height(540))
+        .Filterable()
+            .DataSource(dataSource => dataSource
+            .Ajax()
+             .Read(read => read.Action("GetCardList_Read", "Users"))
+
+            .ServerOperation(false)
+            .PageSize(20)
+
+        )
+    )
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="getmsgwindow">
+</div>
+<div id="windowmsg"></div>
+
+
+<script type="text/javascript">
+
+    function getFlashCard(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var cardid = dataItem.CardId;
+        $("#windowmsg").append("<div id='getmsgwindow'></div>");
+
+        var wnd2 = $("#getmsgwindow").kendoWindow({
+            //actions: ["Close"],
+            draggable: true,
+            modal: true,
+            animation: false,
+            resizable: true,
+            content: "/Users/EditCard?cardid=" + cardid,
+            width: 820,
+            height: 600,
+
+            title: "Flash Card Details",
+            // close: onClose,
+            deactivate: function () {
+                this.destroy();
+            }
+
+        }).data("kendoWindow");
+        wnd2.center().open();
+    }
+
+
+    $("#btnAddMsg").click(function (e) {
+        e.preventDefault();
+
+        //var staffid = dataItem.StaffID;
+        $("#windowmsg").append("<div id='getmsgwindow'></div>");
+
+        var wnd2 = $("#getmsgwindow").kendoWindow({
+            //actions: ["Close"],
+            draggable: true,
+            modal: true,
+            animation: false,
+            resizable: true,
+            content: "/Users/AddCard",
+            width: 720,
+            height: 450,
+
+            title: "Add New FlashCard",
+            // close: onClose,
+            deactivate: function () {
+                this.destroy();
+            }
+
+        }).data("kendoWindow");
+        wnd2.center().open();
+    });
+
+    $("#btnAddCat").click(function (e) {
+        e.preventDefault();
+
+        //var staffid = dataItem.StaffID;
+        $("#windowmsg").append("<div id='getmsgwindow'></div>");
+
+        var wnd5 = $("#getmsgwindow").kendoWindow({
+            //actions: ["Close"],
+            draggable: true,
+            modal: true,
+            animation: false,
+            resizable: true,
+            content: "/Admin/AddCourse",
+            width: 720,
+            height: 350,
+
+            title: "Add New Category/ Subject Area",
+            // close: onClose,
+            deactivate: function () {
+                this.destroy();
+            }
+
+        }).data("kendoWindow");
+        wnd5.center().open();
+    });
+
+    function OnSuccessCat(ajaxContext) {
+        $('#targetDivMsg').empty();
+        var response = ajaxContext.rtnmsg;
+        var smsg = ajaxContext.msg;
+        if (response == "success") {
+            $('<span class="alert alert-success" style="display: block;font-size: 120%"><b>Success : Data Saved Successfully. </b> </span>').appendTo('.rssedMsg');
+            $("#btnSubmitCat").hide();
+            $("#btnAddAnotherCat").show();
+            //var grid = $("#FlashCards").data("kendoGrid");
+            //grid.dataSource.read();
+            //grid.refresh();
+
+        }
+        else if (response == "fail") {
+            $('<span class="alert alert-error" style="display: block;font-size: 120%"><b>Error: Unable to Save. Please try Again</b> </span>').appendTo('.rssedMsg');
+        }
+        else {
+            $('<span class="alert alert-error" style="display: block;font-size: 120%"><b>Unknown Error: Please try Again</b> </span>').appendTo('.rssedMsg');
+        }
+    }
+    function OnFailureCat(ajaxContext) {
+        $('#targetDivMsg').empty();
+        $('#targetDivMsg').empty();
+        $('<span class="alert alert-error" style="display: block;font-size: 120%"><b>Error Occurred whiles saving</b> </span>').appendTo('.rssedMsg');
+        //$('#targetDivMsg').empty();
+    }
+
+    function OnSuccessMsg(ajaxContext) {
+        $('#targetDivMsg').empty();
+        var response = ajaxContext.rtnmsg;
+        var smsg = ajaxContext.msg;
+        if (response == "success") {
+            $('<span class="alert alert-success" style="display: block;font-size: 120%"><b>Success : Flash Card Saved Successfully. </b> </span>').appendTo('.rssedMsg');
+            $("#btnSubmitMsg").hide();
+            $("#btnAddAnotherCard").show();
+            var grid = $("#FlashCards").data("kendoGrid");
+            grid.dataSource.read();
+            grid.refresh();
+            
+        }
+        else if (response == "fail") {
+            $('<span class="alert alert-error" style="display: block;font-size: 120%"><b>Error: Unable to Save. Please try Again</b> </span>').appendTo('.rssedMsg');
+        }
+        else {
+            $('<span class="alert alert-error" style="display: block;font-size: 120%"><b>Unknown Error: Please try Again</b> </span>').appendTo('.rssedMsg');
+        }
+    }
+    function OnFailureMsg(ajaxContext) {
+        $('#targetDivMsg').empty();
+        $('#targetDivMsg').empty();
+        $('<span class="alert alert-error" style="display: block;font-size: 120%"><b>Error Occurred whiles saving</b> </span>').appendTo('.rssedMsg');
+        //$('#targetDivMsg').empty();
+    }
+    ////////
+    function OnSuccessMsga(ajaxContext) {
+        $('#targetDivMsga').empty();
+        var response = ajaxContext.rtnmsg;
+        if (response == "success") {
+            $('<span class="alert alert-success" style="display: block;font-size: 120%"><b>Success : Message Data Saved Successfully. </b> </span>').appendTo('.rssedMsga');
+            $("#btnSubmitMsga").hide();
+            $("#btnAddAnotherMsga").show();
+            var grid = $("#GridMessagesList").data("kendoGrid");
+            grid.dataSource.read();
+            grid.refresh();
+        }
+        else if (response == "pkerror") {
+            $('#targetDivMsga').empty();
+            $('<span class="alert alert-error" style="display: block;font-size: 120%"><b>Unable to Save. Message Code Already Exist. <br> Please Modify the Message Code.</b> </span>').appendTo('.rssedMsga');
+
+        }
+        else {
+            $('#targetDivMsga').empty();
+            $('<span class="alert alert-error" style="display: block;font-size: 120%"><b>Unknown Error: Please try Again</b> </span>').appendTo('.rssedMsga');
+
+        }
+    }
+    function OnFailureMsga(ajaxContext) {
+        $('#targetDivMsga').empty();
+        $('<span class="alert alert-error" style="display: block;font-size: 120%"><b>Error: Error Occurred whiles saving</b> </span>').appendTo('.rssedMsga');
+
+    }
+
+    function onDataBound(e) {
+        //remove text from "destroy" button
+        //var innerContent = $(".k-grid-Delete").html().replace("Delete", "");
+        //$(".k-grid-Delete").html(innerContent);
+        $(".k-grid-Delete").addClass("abutton delete");
+    }
+
+    //Delete Card
+    function deleteCard(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var CardId = dataItem.CardId;
+        var answer = confirm("Are You sure you want to DELETE this Flash Card?");
+        if (answer) {
+            $.ajax({
+                type: "POST",
+                data: { CardId: CardId },
+                dataType: "json",
+                url: '/Users/DeleteCard/',
+                success: function (data) {
+
+                    if (data.delans == true) {
+                        var grid = $("#FlashCards").data("kendoGrid");
+                        grid.dataSource.read();
+                        grid.refresh();
+                    }
+                    else {
+                        alert('Error : ');
+                    }
+                },
+                error: function (data) {
+                    alert('Error : ');
+                }
+
+            });
+        }
+    }
+
+    function onChange() {
+        var grid = $("#FlashCards").data("kendoGrid");
+        var value = this.value();
+
+        if (value) {
+
+            grid.dataSource.filter({ field: "subjectarea", operator: "eq", value: value });
+
+        } else {
+
+            grid.dataSource.filter();
+
+        }
+    }
+
+    function filterSubArea() {
+        return {
+            catid: $("#subjectCat").val()
+        };
+    }
+
+    function filterCatSubArea() {
+        return {
+            catid: $("#ParentId").val()
+        };
+    }
+</script>
+
+<script src="@Url.Content("~/Scripts/kendo/kendo.web.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/kendo/kendo.aspnetmvc.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+

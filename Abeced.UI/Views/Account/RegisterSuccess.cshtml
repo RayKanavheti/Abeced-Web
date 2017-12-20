@@ -1,0 +1,35 @@
+﻿@{ Layout = Url.Content("../Shared/_LayoutSign.cshtml");}
+@{
+    ViewBag.Title = "RegisterSuccess";
+}
+
+<div class="row">
+<br />
+<br />
+<br />
+            <div class="span12 header">
+                <h4>
+                   Account Successfully Created</h4>
+                   <hr />
+                <div class="span4 social">
+                    <a href="#" class="circle facebook">
+                        <img src="img/face.png" alt="" />
+                    </a><a href="#" class="circle twitter">
+                        <img src="img/twt.png" alt="" />
+                    </a><a href="#" class="circle gplus">
+                        <img src="img/gplus.png" alt="" />
+                    </a>
+                </div>
+            </div>
+            <!-- <div class="span5 remember">
+                    <label class="checkbox">
+                        <input type="checkbox"> Remember me
+                    </label>
+                    <a href="#">Forgot password?</a>
+                </div> -->
+
+
+                <div class="span12 dosnt">
+                    <span>Sign in to begin</span> <a href="@Url.Content("~/Account/Login")">Sign in</a>
+                </div>
+        </div>

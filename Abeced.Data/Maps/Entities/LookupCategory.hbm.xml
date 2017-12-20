@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Abeced.Data" assembly="Abeced.Data">
+    <class name="LookupCategory" table="abeced.lookup_category" >
+        <id name="Catid" column="catid" type="String" length="50" >
+            <generator class="assigned" />
+        </id>
+        <property name="CatTitle" column="cat_title" type="String" not-null="true" length="200" /> 
+        <property name="SubCatid" column="sub_catid" type="String" not-null="false" length="50" /> 
+        <property name="Lastupdate" column="lastupdate" type="DateTime" not-null="false" /> 
+        <property name="CatImg" column="cat_img" type="String" not-null="true" length="512" /> 
+        <bag name="LookupSubcategoryList" inverse="true" cascade="all-delete-orphan" lazy="true" >
+            <key>
+                <column name="catid" />
+            </key>
+            <one-to-many class="LookupSubcategory" />
+        </bag>
+    </class>
+</hibernate-mapping>

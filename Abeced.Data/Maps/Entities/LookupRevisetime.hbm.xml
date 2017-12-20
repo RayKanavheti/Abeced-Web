@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Abeced.Data" assembly="Abeced.Data">
+    <class name="LookupRevisetime" table="abeced.lookup_revisetimes" >
+        <id name="Lkuprevisetime" column="lkuprevisetime" type="String" length="50" >
+            <generator class="assigned" />
+        </id>
+        <property name="RepeatAfter" column="repeat_after" type="Int32" not-null="true" /> 
+        <property name="RepeatCode" column="repeat_code" type="String" not-null="true" length="10" /> 
+        <property name="RptDescription" column="rpt_description" type="String" not-null="false" /> 
+    </class>
+</hibernate-mapping>

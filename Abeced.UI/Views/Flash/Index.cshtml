@@ -1,0 +1,58 @@
+﻿@model Abeced.UI.Models.CategoryListModel
+@using Kendo.Mvc.UI
+@{
+    //ViewBag.Title = "Test";
+    Layout = "~/Views/Shared/_LayoutProfile.cshtml";
+}
+<div align="center" style="font-size: 160%; color: #767d81; font-family: Trebuchet MS,Verdana,Helvetica,Arial,sans-serif;
+    margin-bottom: 0px; padding-bottom: 0px;width:80% ">
+    Browse By Category
+    
+</div>
+<table cellpadding="8" cellspacing="8" align="center" width="80%" style="margin-left:1%">
+    <tr  style="border-color: #a1a3a4; border-top-width:thin; border-top-style:solid ">
+        <td colspan="6">
+            <br />
+        </td>
+    </tr>
+    @{
+        var i = 0;
+        
+        for (int cc = 0; cc < Model.Categories.Count()/6; cc++)
+        {
+        <tr>
+            @{
+            
+            for (int k = 0; k < 6; k++)
+            {
+            <td >
+                
+                <a  href="@Url.Content("~/Flash/Topics/?cid="+Model.Categories[i].CatId)" ><b>@Model.Categories[i].CategoryTitle</b></a>
+                <input type="hidden" name="Categories[@cc].CatId" value='@Model.Categories[i].CatId'/>
+            </td>
+                i++;              
+            }
+            }
+        </tr>
+    }
+        if (Model.Categories.Count() % 6 != 0)
+            {
+            <tr>@{
+                
+                for (int k=i; k < Model.Categories.Count(); k++)
+                {
+            <td>
+                <a  href="@Url.Content("~/Flash/Topics/?cid="+Model.Categories[i].CatId)" ><b>@Model.Categories[i].CategoryTitle</b></a>
+                <input type="hidden" name="Categories[@i].CatId" value='@Model.Categories[i].CatId'/>
+            </td>
+            }
+            }
+            </tr>
+              }
+    }
+</table>
+<script src="@Url.Content("~/Scripts/kendo/kendo.web.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/kendo/kendo.aspnetmvc.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>

@@ -1,0 +1,1069 @@
+﻿@section header
+{
+    <!-- Insert to your webpage before the </head> -->
+<script src="@Url.Content("~/Scripts/audioplayerengine/amazingaudioplayer.js")"></script>
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Scripts/audioplayerengine/initaudioplayer-1.css")">
+<script src="@Url.Content("~/Scripts/audioplayerengine/initaudioplayer-1.js")"></script>
+<link rel="stylesheet" href="@Url.Content("~/Content/themes/profile/assets/css/bootstrap-switch.min.css")">
+<!-- End of head section HTML codes -->
+}
+@model Abeced.UI.Models.FlashCardSessionModel
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutProfile.cshtml";
+
+}
+
+
+<br />
+<div style="margin-left:40px">
+
+<div style="margin-top:-10px" >
+    <label>Background Music &nbsp;&nbsp;</label>
+    <div class="make-switch" id="bgmusic-toggle-switch">
+        <input type="checkbox" class="tgmusic_chk">
+    </div>
+
+
+    <div style="display:none">
+        <audio class="ctlbgmusic" controls id=" ctlbgmusic" preload="none" loop>
+            <source src="@Url.Content("~/audios/tck1.mp3")" type="audio/mpeg" >
+            <source src="@Url.Content("~/audios/tck2.mp3")" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+</div>
+    <section>
+        <div id="fldcardCol1" style="float:left; width:60%">
+            @using (Ajax.BeginForm("Quiz", "Flash", new { @sid = Model.SessionId, @rid = Model.MsessId },
+        new AjaxOptions { HttpMethod = "Post" },
+        new
+        {
+            @id = "submitForm"
+        }))
+            {
+
+                <div class="main_side" id="stage">
+                    <div class="memorize_card" id="spinner" style="z-index:3;">
+                        <div class="headerOptions">
+                            <div class="flashcardNav">
+                                <section>
+                                    @*<input type="submit" id="back-step" value="Previous" class="greyBtn smallBtn allRounded"
+                                           style="display: inline;">
+                                    <input type="submit" id="next-step" value="Next" class="greyBtn smallBtn allRounded"
+                                           style="display: inline;">
+                                    <input type="button" id="restart-step" value="Repeat" class="greyBtn smallBtn allRounded"
+                                           style="display: inline;">*@
+                                    <div id="card_name" style="float:left; font-size: 140%; color: #767d81; font-family: Trebuchet MS,Verdana,Helvetica,Arial,sans-serif;margin-top:18px; margin-left:50px ">
+                                        Subject Area: @ViewData["sub"]
+                                    </div>
+
+                                    <div id="amazingaudioplayer-1" style="display:block;position:relative;width:300px;height:auto;margin:15px auto 0px; z-index:100; float:right">
+                                        <ul class="amazingaudioplayer-audios" style="display:none;">
+                                            <li data-artist="" data-title="tck1" data-album="" data-info="" data-image="" data-duration="0">
+                                                <div class="amazingaudioplayer-source" data-src="@Url.Content("~/audios/tck1.mp3")" data-type="audio/mpeg" />
+                                            </li>
+                                            @*<li data-artist="" data-title="tck2" data-album="" data-info="" data-image="" data-duration="0">
+                                                <div class="amazingaudioplayer-source" data-src="@Url.Content("~/audios/tck2.mp3")" data-type="audio/mpeg" />
+                                            </li>
+                                            <li data-artist="" data-title="tck1" data-album="" data-info="" data-image="" data-duration="0">
+                                                <div class="amazingaudioplayer-source" data-src="@Url.Content("~/audios/tck1.mp3")" data-type="audio/mpeg" />
+                                            </li>*@
+                                        </ul>
+                                    </div>
+                                    @*<img style="float:right; height:35px;margin:15px 0px; overflow:hidden" src="~/Content/assets/speak.png" />*@
+                                </section>
+                                
+                            </div>
+                        </div>
+                        <div class="cardContainer">
+                            @Html.HiddenFor(m => m.SessionId)
+                            @Html.HiddenFor(m => m.catid)
+                            @Html.HiddenFor(m => m.FlshStatus)
+                            @*<input type="hidden" value="@HttpContext.Current.Server.MapPath("~/").ToString()" id="srvpath" />*@
+                            <input type="hidden" value="@Model.RepeatCards" id="RepeatCards" />
+                            <input type="hidden" value="@Model.RefillFlashCards.Count()" id="refillcount" />
+                            <input type="hidden" value="@Model.FlashCards.Count()" id="totalcount" />
+                            <input type="hidden" value="@Model.FlashCards.Count()" id="ccount" />
+                            <input type="hidden" value="0" id="finishedcount" />
+                            <input type="hidden" value="0" id="fncount" data-id1="0" data-id2="0" data-id3="0" />
+                            @{
+                var flashcount = Model.FlashCards.Count();
+                var cnt = 0; var per = "";
+                if (flashcount >= 3 || (flashcount < 3 && Model.CompletedCards != 0))
+                {
+                    foreach (var carditem in Model.FlashCards)
+                    {
+                        cnt++;
+                        per = ((double)cnt * 100 / flashcount).ToString() + "%";
+                        <div class="wizard-step cardContent" data-yes="0" data-no="0" data-incl="0">
+                            <input id="per" type="hidden" value="@per" />
+
+                            <div class="instructionsBox" style="display: none;">
+                                <h3>
+                                    How to study your flashcards.
+                                </h3>
+                                <p>
+                                    <strong>Right/Left arrow keys:</strong> Navigate between flashcards.<span class="keygraphic rightkey">
+                                        right
+                                        arrow key
+                                    </span><span class="keygraphic leftkey">left arrow key</span>
+                                </p>
+                                <p>
+                                    <strong>Up/Down arrow keys:</strong> Flip the card between the front and back.<span class="keygraphic downkey">down key</span><span class="keygraphic upkey">up key</span>
+                                </p>
+                                <p>
+                                    <strong>H key:</strong> Show hint (3rd side).<span class="keygraphic hkey">h key</span>
+                                </p>
+                            </div>
+                            <div class="frontCard" id="frontCardSide" style="vertical-align: middle;">
+                                <p>
+                                    <span>
+                                        <div class="section_header">
+                                            <h3 style="border-bottom: 0px; margin-top: 60px; text-align:center">@carditem.Question</h3>
+                                        </div>
+                                        <input class="classcardid" id="cardid" type="hidden" value="@carditem.CardId" />
+                                        @*<input type="hidden" value="@carditem.QuestionAudio" class="questionAudio" />*@
+                                        <input type="hidden" value="@Url.Content("~/"+carditem.QuestionAudio)" class="questionAudio" />
+                                    </span>
+                                </p>
+                            </div>
+                            @*<div id="playBtn">
+                                <div class="allRounded" style="display: none;">
+                                    Play button
+                                </div>
+                            </div>*@
+                            <div class="backCard" id="backCardSide" style="display: none;vertical-align: middle;">
+                                <p>
+                                    <span>
+                                        <div class="section_header">
+                                            <h3 id="response" style="border-bottom: 0px; margin-top: 60px; color: Black; text-align:center"/>
+                                            <input class="cardAns" id="cardAns" type="hidden" value="@carditem.Answer" />
+                                            <h3 id="cardFact" style="border-bottom: 0px; margin-top: 60px; color: Black; text-align:center">
+                                                @carditem.FactSheet
+                                                <input type="hidden" value="@Url.Content("~/"+carditem.AnswerAudio)" class="answerAudio" />
+                                            </h3>
+                                        </div>
+                                    </span>
+                                </p>
+
+                            </div>
+                            @*<div id="playBtn2">
+                                <div class="allRounded" style="display: none;">
+                                    Play button
+                                </div>
+                            </div>*@
+                            <div id="hintCardSide" style="display: none;">
+                                <p style="display: none;">
+                                    @*<img width="1" height="1" alt="image" src="#"
+                                    style="display: none;">*@
+                                </p>
+                                <p>
+                                    <span></span>
+                                </p>
+                            </div>
+                        </div>
+                    }
+                }
+                <div class="wizard-step confirm cardContent" style="text-align:center">
+                    @{if (flashcount == 0 && Model.CompletedCards != 0)
+                    {
+                        <br />
+                        <br />
+                        <div class="alert alert-info">You have drawn all flash cards In this subject area.</div>
+                        <br />
+                        <input type="button" id="restart-step2" value="Restart Session" class="greyBtn smallBtn allRounded" style="display: inline;width:150px;">
+
+                        <input type="button" id="next-step2" value="Close" class="greyBtn smallBtn allRounded" style="display: inline; width:150px" >
+                    }
+                    else if (flashcount < 3 && Model.CompletedCards == 0)
+                    {
+                        <br />
+                        <br />
+                        <div class="alert alert-info">Sorry there are NOT ENOUGH cards in subject area currently.</div>
+                        <br />
+                        <input type="button" id="next-step3" value="Close" class="greyBtn smallBtn allRounded" style="display: inline; width:150px" >
+                        //Abeced.UI.Controllers.FlashController.DeleteSession(Model.SessionId);
+                    }
+                    else if (flashcount == 0 && Model.CompletedCards == 0)
+                    {
+                        <br />
+                        <br />
+                        <div class="alert alert-info">Sorry there are no cards in subject area currently.</div>
+                        <br />
+                        <input type="button" id="next-step3" value="Close" class="greyBtn smallBtn allRounded" style="display: inline; width:150px" >
+                    }
+                    }
+                </div>
+
+                                <div class="reFill" id="reFill">
+                                    @foreach (var carditem2 in Model.RefillFlashCards)
+                                    {
+                                        <div class="wizard-step cardContent" data-yes="0" data-no="0" data-incl="1">
+
+                                            <div class="frontCard" id="frontCardSide" style="vertical-align: middle;">
+                                                <p>
+                                                    <span>
+                                                        <div class="section_header">
+                                                            <h3 style="border-bottom: 0px; margin-top: 60px;text-align:center">@carditem2.Question</h3>
+                                                        </div>
+                                                        <input class="classcardid" id="cardid" type="hidden" value="@carditem2.CardId" />
+                                                        <input type="hidden" value="@Url.Content("~/"+carditem2.QuestionAudio)" class="questionAudio" />
+                                                    </span>
+                                                </p>
+                                            </div>
+
+                                            <div class="backCard" id="backCardSide" style="display: none;">
+                                                <p style="display: none;">
+                                                    >
+                                                </p>
+                                                <p>
+                                                    <span>
+                                                        <div class="section_header">
+                                                            <h3 style="border-bottom: 0px; margin-top: 60px; color: Black; text-align:center">
+                                                                @carditem2.Answer
+                                                                <input type="hidden" value="@Url.Content("~/"+carditem2.AnswerAudio)" class="answerAudio" />
+                                                            </h3>
+                                                        </div>
+                                                    </span>
+                                                </p>
+
+                                            </div>
+
+                                        </div>
+                                    }
+
+                                </div>
+                            }
+                            <div class="clearfix">
+                            </div>
+                        </div>
+                        @{if (flashcount >= 3)
+                        {                            
+                            <div style="display:block;">
+                                
+                                <form>
+                                    <input style="width:75%" name="userAnswer" id="userAnswer" type="text" autocomplete="off">
+                                </form>
+                                <div class="cssFlip" id="btnAnswer">
+                                    <div>
+                                        Submit
+                                    </div>
+                                </div>
+
+                                @* <button class="greenBtn allRounded mediumBtn" id="startBtn">
+                                <span>Click or Press Spacebar to Begin »</span></button>*@
+                            </div>
+                        }
+                        }
+                    </div>
+
+                </div>
+
+            }
+        </div>
+    </section>
+</div>
+
+<style type="text/css">
+
+    .wizard-step
+	{
+		display: none;
+	}
+    .cardContent
+    {
+        cursor: pointer;
+    }
+
+    .memorize_card, .test_flashcard, .userResults
+    {
+        background-image: -moz-linear-gradient(center bottom , #FFFFFF 97%, #E1E1E1 100%);
+        border: 1px solid #E1E1E1;
+        border-radius: 11px 11px 11px 11px;
+        margin-bottom: 26px;
+        overflow: hidden;
+        
+    }
+    .memorize_card
+    {
+        min-height: 380px;
+    }
+    .memorize_card .headerOptions, .test_flashcard .headerOptions
+    {
+        border-bottom: 1px solid #E3E1E1;
+        border-top-left-radius: 11px;
+        border-top-right-radius: 11px;
+        font-size: 11px;
+        min-height: 70px;
+    }
+    .memorize_card fieldset, .test_flashcard fieldset
+    {
+        border: medium none !important;
+        float: right;
+        margin: 0 10px 0 0;
+        padding: 0;
+    }
+    #memorize_card fieldset, .test_flashcard fieldset
+    {
+        float: left;
+    }
+
+  @*Parent object of spinning object*@
+      #stage {
+        margin: 1em auto;
+        -webkit-perspective: 1200px;
+        -moz-perspective: 1200px;
+        -ms-perspective: 1200px;
+        perspective: 1200px;
+      }
+
+    @*Animation Keyframes of spinning cards*@
+    @* WebKit and Opera browsers *@
+    @@-webkit-keyframes spin {
+        0%
+        {
+            -webkit-transform: rotateY(0deg);
+        }
+        50%
+        {
+            -webkit-transform: rotateY(-90deg);
+        }
+        50.00001%
+        {
+            -webkit-transform: rotateY(-270deg);
+        }
+        100%
+        {
+            -webkit-transform: rotateY(-360deg);
+        }
+    }
+
+  @* all other browsers *@
+  @@keyframes spin {
+    0%
+    {
+      -moz-transform: rotateY(0deg);
+      -ms-transform: rotateY(0deg);
+      transform: rotateY(0deg);
+    }
+    50%
+    {
+      -moz-transform: rotateY(-90deg);
+      -ms-transform: rotateY(-90deg);
+      transform: rotateY(-90deg);
+    }
+    50.00001%
+    {
+      -moz-transform: rotateY(-270deg);
+      -ms-transform: rotateY(-270deg);
+      transform: rotateY(-270deg);
+    }
+    100%
+    {
+      -moz-transform: rotateY(-360deg);
+      -ms-transform: rotateY(-360deg);
+      transform: rotateY(-360deg);
+    }
+  }
+
+    .spinAnimation
+    {
+        -webkit-animation: spin 0.5s linear 1;
+        -moz-animation:    spin 0.5s linear 1;
+        animation:         spin 0.5s linear 1;
+    }
+
+
+
+    #card-wrapper, .cardContainer, #memorize_card .cardContent
+    {
+        min-height: 210px;
+    }
+    .memorize_card .cardContent p
+    {
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .memorize_card .cardContent p span
+    {
+        vertical-align: baseline;
+    }
+    #memorize_card .cardAnswerArea, .memorize_card .flashcardNav
+    {
+        overflow: hidden;
+    }
+    .memorize_card .cardContent .card p
+    {
+        font-weight: normal;
+    }
+    .memorize_card .flashcardNav
+    {
+        padding: 0px 19px 20px;
+    }
+    .memorize_card .cardAnswerArea p
+    {
+        font-size: 13px;
+        margin: 0 0 5px;
+        vertical-align: top;
+    }
+    .memorize_card .cardAnswerArea p .userMessage
+    {
+        margin: 0 5px;
+        padding: 2px 10px;
+    }
+    .memorize_card .memorize_input
+    {
+        margin: 0 6px 0 0;
+        width: 298px;
+    }
+    .memorize_card .cardAnswerArea .rightFloat p
+    {
+        font-size: 10px;
+    }
+
+    .memorize_card button
+    {
+        margin: 0;
+        padding: 0 20px;
+    }
+
+    .memorize_card .cardContent .answertf
+    {
+        margin: 20px;
+        text-align: center;
+    }
+    .memorize_card .cardContent .answertf .wrongAnswer
+    {
+        background: none repeat scroll 0 0 #FFEBE8;
+        font-size: 12px;
+        font-weight: bold;
+        line-height: 16px;
+        padding: 12px;
+    }
+    .memorize_card .cardContent .answertf .rightAnswer
+    {
+        background: none repeat scroll 0 0 #F1F1F1;
+        font-size: 12px;
+        line-height: 16px;
+        padding: 12px;
+    }
+
+    .cardContent > .instructionsBox p
+    {
+        float: left;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 30px;
+    }
+    .memorize_card .cardAnswerArea
+    {
+        /*background: -moz-linear-gradient(center bottom , #DFDFDF 3%, #F0F0F0 12%, #F7F7F7 89%) repeat scroll 0 0 #F0F0F0;*/
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+        border-top: 1px solid #E7E7E7;
+        min-height: 70px;
+        overflow: hidden;
+        padding: 20px 14px 10px;
+        text-align: center;
+        width: 96%;
+    }
+
+    .memorize_card
+    {
+        position: relative;
+    }
+    .memorize_card #loginBtn, #cram-mode-login-button
+    {
+        height: 25px;
+        position: relative;
+        top: 1px;
+    }
+
+    #memorize_card .headerOptions
+    {
+        padding: 0 17px;
+    }
+    #memorize_card
+    {
+        margin-bottom: 0;
+    }
+    #memorize_card fieldset
+    {
+        margin: 0;
+    }
+    #memorize_card #flashcardActions
+    {
+        float: right;
+        margin: -30px 0 0 10px;
+    }
+    #memorize_card .cardContent
+    {
+        cursor: auto;
+    }
+    #memorize_card .instructionsBox, #memorize_card .cram-instruction-box
+    {
+        margin: 56px 40px;
+    }
+    #memorize_card .instructionsBox h3
+    {
+        margin: 0 0 0 -20px;
+    }
+    #memorize_card .instructionsBox span, #memorize_card .cram-instruction-box span
+    {
+        margin-left: 30px;
+    }
+    #memorize_card .instructionsBox h3, #memorize_card .cram-instruction-box h3
+    {
+        margin: 0 0 0 -20px;
+    }
+    #memorize_card .cardContent .instructionsBox p, #memorize_card .cardContent .cram-instruction-box p
+    {
+        font-size: 13px;
+        font-weight: normal;
+        margin-left: -20px;
+        margin-top: 20px;
+    }
+    #memorize_card #flashcardActions
+    {
+        float: right;
+        margin-top: -66px;
+    }
+
+
+    #correctAnswer a, #rightAnswerListed a, #giveUpBlock a
+    {
+        display: inline-block;
+        float: right;
+        width: 18px;
+    }
+    #rightAnswerListed p
+    {
+        display: inline;
+    }
+    #rightAnswerListed div
+    {
+        display: inline-block;
+        float: none;
+    }
+
+    .memorize_card
+    {
+        position: relative;
+    }
+    .memorize_card #loginBtn, #cram-mode-login-button
+    {
+        height: 25px;
+        position: relative;
+        top: 1px;
+    }
+
+    #memorize_card .headerOptions
+    {
+        padding: 0 17px;
+    }
+    #memorize_card
+    {
+        margin-bottom: 0;
+    }
+    #memorize_card fieldset
+    {
+        margin: 0;
+    }
+    #memorize_card #flashcardActions
+    {
+        float: right;
+        margin: -30px 0 0 10px;
+    }
+    #memorize_card .cardContent
+    {
+        cursor: auto;
+    }
+    #memorize_card .instructionsBox, #memorize_card .cram-instruction-box
+    {
+        margin: 56px 40px;
+    }
+    #memorize_card .instructionsBox h3
+    {
+        margin: 0 0 0 -20px;
+    }
+    #memorize_card .instructionsBox span, #memorize_card .cram-instruction-box span
+    {
+        margin-left: 30px;
+    }
+    #memorize_card .instructionsBox h3, #memorize_card .cram-instruction-box h3
+    {
+        margin: 0 0 0 -20px;
+    }
+    #memorize_card .cardContent .instructionsBox p, #memorize_card .cardContent .cram-instruction-box p
+    {
+        font-size: 13px;
+        font-weight: normal;
+        margin-left: -20px;
+        margin-top: 20px;
+    }
+    #memorize_card #flashcardActions
+    {
+        float: right;
+        margin-top: -66px;
+    }
+
+    #UserAnswer
+    {
+       float:left;
+        padding: 4px 0px 4px 4px;
+        margin-left: 10%;
+        margin-top: 5px;
+        width: 70%
+        
+    }
+
+    #btnAnswer
+    {
+        background: url("@Url.Content("~/Content/assets/clickFlip.png")") no-repeat scroll center center transparent;
+        cursor: pointer;
+        float: left;
+        height: 80px;
+        margin-top: -30px;
+        padding: 10px 20px 0 10px;
+    }
+    #btnAnswer > div
+    {
+        font-size: 10px;
+        margin-top: 40px;
+    }
+
+    #correctAnswer a, #rightAnswerListed a, #giveUpBlock a
+    {
+        display: inline-block;
+        float: right;
+        width: 18px;
+    }
+
+    .headerOptions
+    {
+        background: none repeat scroll 0 0 #F7F7F7;
+    }
+    .headerOptions fieldset > ul
+    {
+        left: 5px;
+        position: relative;
+        top: 6px;
+    }
+    .headerOptions .mini_nav li ul
+    {
+        top: 25px;
+    }
+    .headerOptions fieldset .start_button
+    {
+        font-size: 11px;
+        padding: 5px;
+        position: relative;
+        top: 8px;
+    }
+     .allRounded
+    {
+        border-radius: 4px 4px 4px 4px;
+    }
+    .cardContent, .progress_bar
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+    }
+     .progress_bar
+    {
+        margin: 0 0 10px 18px;
+    }
+    .progress_bar span
+    {
+        font-size: 10px;
+        text-align: center;
+    }
+    .progress_bar p
+    {
+        background: -moz-linear-gradient(center bottom , #FAFAFA 31%, #F7F7F8 66%) repeat scroll 0 0 #F7F7F8;
+        border: 1px solid #ECECEC;
+        display: inline-block;
+        height: 17px;
+        margin: 0 13px 0 23px;
+        position: relative;
+        top: 6px;
+        width: 90%;
+    }
+    .progress_bar p span em
+    {
+        padding: 4px;
+    }
+    .progress_bar p span
+    {
+        background-color:#1569C7;
+        display: block;
+        height: 18px;
+        position: absolute;
+        top: -1px;
+        z-index: 1;
+    }
+
+    .greyBtn
+    {
+        -moz-border-bottom-colors: none;
+        -moz-border-left-colors: none;
+        -moz-border-right-colors: none;
+        -moz-border-top-colors: none;
+        background-color: whiteSmoke;
+        background-image: -moz-linear-gradient(center top , #FAFAFA, #E6E6E6);
+        border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+        border-image: none;
+        border-style: solid;
+        border-width: 1px;
+        box-shadow: 0 -1px 0 #FFFFFF inset, 1px 0 0 rgba(255, 255, 255, 0.3) inset, -1px 0 0 rgba(255, 255, 255, 0.3) inset, 0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 1px 0 rgba(100, 100, 100, 0.1), 0 2px 0
+
+rgba(150, 150, 150, 0.1);
+        color: #333333;
+        cursor: pointer;
+        text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    }
+    .greyBtn:hover
+    {
+        background: none repeat scroll 0 0 #E6E6E6;
+        text-decoration: none;
+    }
+    .greyBtn:active
+    {
+        box-shadow: 0.05em 0.15em 0.4em rgba(0, 0, 0, 0.4) inset, 0 0 0.2em rgba(255, 255, 255, 0.3) inset, 0 1px 2px rgba(0, 0, 0, 0.9) inset;
+    }
+    .greenBtn
+    {
+        -moz-border-bottom-colors: none;
+        -moz-border-left-colors: none;
+        -moz-border-right-colors: none;
+        -moz-border-top-colors: none;
+        background-color: #7DA92A;
+        background-image: -moz-linear-gradient(center top , #A3CB54 0px, #8CB73A 50%, #8CB73A 50%, #7DA92A 100%);
+        border-color: #7DA92A #A3CB54 #6D7E46;
+        border-image: none;
+        border-style: solid;
+        border-width: 1px;
+        box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.3) inset, 1px 0 0 rgba(255, 255, 255, 0.22) inset, -1px 0 0 rgba(255, 255, 255, 0.22) inset, 0 1px 0 rgba(255, 255, 255, 0.4) inset, 0 1px 0 rgba(100, 100,
+
+100, 0.1), 0 2px 0 rgba(150, 150, 150, 0.1);
+        color: #FFFFFF;
+        cursor: pointer;
+        text-shadow: 1px 2px 0 rgba(0, 0, 0, 0.25);
+    }
+    .greenBtn:hover
+    {
+        background: -moz-linear-gradient(center top , #7DA92A 0px, #8CB73A 50%, #8CB73A 50%, #A3CB54 100%) repeat scroll 0 0 transparent;
+        text-decoration: none;
+    }
+    .greenBtn:active
+    {
+        box-shadow: 0.05em 0.15em 0.4em rgba(0, 0, 0, 0.4) inset, 0 0 0.2em rgba(255, 255, 255, 0.3) inset, 0 1px 2px rgba(0, 0, 0, 0.9) inset;
+    }
+    .section_header {
+	width: 100%;
+	margin-bottom: 0px; /*60*/
+}
+
+
+
+
+#amazingaudioplayer-AUDIOPLAYERID {
+	box-sizing: content-box;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID div {
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-image {
+	display: block;
+	position: relative;
+	float: left;
+	margin: 4px;
+	overflow: hidden;
+	-webkit-box-shadow: 0 8px 6px -6px black;
+	-moz-box-shadow: 0 8px 6px -6px black;
+	box-shadow: 0 8px 6px -6px black;
+	-webkit-border-radius: 4px;
+    	-moz-border-radius: 4px;
+    	border-radius: 4px;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-image-clear {
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-text {
+	display: block;
+	position: relative;
+	overflow: hidden;
+	padding: 4px 12px;
+	height: 100px;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-text-clear {
+	clear: both;
+	height: 8px;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-title {
+	display: block;
+	color: #333;
+	font-family: "Oswald",Arial,sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-title-clear {
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-info {
+	display: block;
+	display: block;
+	color: #333;
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+	font-style: italic;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-info-clear {
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-bar {
+	background-color: #f6f6f6;
+	margin: 4px;
+	border: 1px solid #cbcbcb;
+	background-image: -moz-linear-gradient(top,  #ffffff 0%, #f1f1f1 50%, #e1e1e1 51%, #f6f6f6 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(50%,#f1f1f1), color-stop(51%,#e1e1e1), color-stop(100%,#f6f6f6));
+	background-image: -webkit-linear-gradient(top,  #ffffff 0%,#f1f1f1 50%,#e1e1e1 51%,#f6f6f6 100%);
+	background-image: -o-linear-gradient(top,  #ffffff 0%,#f1f1f1 50%,#e1e1e1 51%,#f6f6f6 100%);
+	background-image: -ms-linear-gradient(top,  #ffffff 0%,#f1f1f1 50%,#e1e1e1 51%,#f6f6f6 100%);
+	background-image: linear-gradient(to bottom,  #ffffff 0%,#f1f1f1 50%,#e1e1e1 51%,#f6f6f6 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0 );
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-bar-buttons-clear {
+	clear: both;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-bar-clear {
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-bar-title {
+	position: relative;
+	float: left;
+	color: #444444;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 12px;
+	line-height: 24px;
+	margin: 0 8px;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-playpause {
+	position: relative;
+	float: left;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-play {
+	position: relative;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-pause {
+	position: relative;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-stop {
+	position: relative;
+	float: left;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-prev {
+	position: relative;
+	float: left;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-next {
+	position: relative;
+	float: left;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-loop {
+	position: relative;
+	float: left;
+	margin: 0 2px;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-progress {
+	position: relative;
+	background-color: #706d6d;
+	margin: 8px 4px;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-progress-loaded {
+	background-color: #999;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-progress-played {
+	background-color: #73b3c3;
+	background-image: -ms-linear-gradient(top, #90d9e4 0%, #368fae 100%);
+	background-image: -moz-linear-gradient(top, #90d9e4 0%, #368fae 100%);
+	background-image: -o-linear-gradient(top, #90d9e4 0%, #368fae 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #90d9e4), color-stop(1, #368fae));
+	background-image: -webkit-linear-gradient(top, #90d9e4 0%, #368fae 100%);
+	background-image: linear-gradient(to bottom, #90d9e4 0%, #368fae 100%);
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-time {
+	position: relative;
+	float: right;
+	color: #555555;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 12px;
+	text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1);
+	line-height: 24px;
+	margin: 0 4px;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-volume {
+	position: relative;
+	float: right;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-volume-bar {
+	margin-bottom: 2px;
+	background-color: #e1e1e1;
+	background-image: -ms-linear-gradient(top, #f6f6f6 0%, #e1e1e1 100%);
+	background-image: -moz-linear-gradient(top, #f6f6f6 0%, #e1e1e1 100%);
+	background-image: -o-linear-gradient(top, #f6f6f6 0%, #e1e1e1 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #f6f6f6), color-stop(1, #e1e1e1));
+	background-image: -webkit-linear-gradient(top, #f6f6f6 0%, #e1e1e1 100%);
+	background-image: linear-gradient(to bottom, #f6f6f6 0%, #e1e1e1 100%);
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-volume-bar-adjust {
+	background-color: #555;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-volume-bar-adjust-active {
+	background-color: #4ba4bd;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-tracklist {
+	display: block;
+	position: relative;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-tracklist-container {
+	display: block;
+	position: relative;
+	-webkit-border-radius: 2px;
+   	 -moz-border-radius: 2px;
+    	border-radius: 2px;
+	margin: 4px;
+	padding: 12px 12px 16px;
+	background-color: #e1e1e1;
+	border: 1px solid #cbcbcb;
+	background-image: -ms-linear-gradient(top, #f6f6f6 0%, #e1e1e1 100%);
+	background-image: -moz-linear-gradient(top, #f6f6f6 0%, #e1e1e1 100%);
+	background-image: -o-linear-gradient(top, #f6f6f6 0%, #e1e1e1 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #f6f6f6), color-stop(1, #e1e1e1));
+	background-image: -webkit-linear-gradient(top, #f6f6f6 0%, #e1e1e1 100%);
+	background-image: linear-gradient(to bottom, #f6f6f6 0%, #e1e1e1 100%);
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-tracks-wrapper {
+	position: relative;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-tracks {
+	position: relative;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-track-item {
+	position: relative;
+	cursor: pointer;
+	color: #666;
+	font-family: 'Open Sans', Arial, sans-serif;
+	font-size: 12px;
+	line-height: 22px;
+	margin: 0;
+	padding: 0;
+	text-align: left;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-track-item-active {
+	cursor: pointer;
+	color: #222;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-track-item a {
+	color: #666;
+    text-decoration: none;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-track-item-active a {
+	color: #222;
+    text-decoration: none;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-track-item-duration {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-tracklist-arrow-prev {
+	position: absolute;
+	bottom: 2px;
+	left: 50%;
+	margin-left: -64px;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-tracklist-arrow-next {
+	position: absolute;
+	bottom: 2px;
+	left: 50%;
+	margin-left: 16px;
+}
+
+#amazingaudioplayer-AUDIOPLAYERID .amazingaudioplayer-tracklist-clear {
+	clear: both;
+}
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //Remove player watermark
+        var $player1 = $('.amazingaudioplayer-bar-clear').next();
+        $player1.remove();
+
+        var sesid = $('#SessionId').val();
+        var flshstatus = $('#FlshStatus').val();
+      
+
+    });
+
+    $("#fldcardCol2").height($("#fldcardCol1").height());
+</script>
+<script src="@Url.Content("~/Scripts/kendo/kendo.web.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/kendo/kendo.aspnetmvc.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+@*<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>*@
+                <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+                <script type="text/javascript" src="@Url.Content("~/Scripts/quizcard.js")"></script>
+
+@section footerscript
+{
+    <script src="@Url.Content("~/Content/themes/profile/assets/js/bootstrap-switch.min.js")"></script>
+}

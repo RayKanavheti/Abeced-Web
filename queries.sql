@@ -1,0 +1,1 @@
+﻿update lookup_subcategory set cat_level=2 where subcatid in ( select distinct on (parentid) parentid from lookup_subcategory)

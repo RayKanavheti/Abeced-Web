@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Abeced.Data" assembly="Abeced.Data">
+    <class name="QuizScore" table="abeced.quiz_score" >
+        <id name="Identification" column="id" type="String" length="200" >
+            <generator class="assigned" />
+        </id>
+        <property name="Username" column="username" type="String" not-null="false" length="100" /> 
+        <property name="CatId" column="cat_id" type="Int32" not-null="false" /> 
+        <property name="NumberOfQuestions" column="number_of_questions" type="Int32" not-null="false" /> 
+        <property name="Points" column="points" type="Decimal" not-null="false" /> 
+        <property name="DateTaken" column="date_taken" type="DateTime" not-null="false" /> 
+        <property name="TimeTaken" column="time_taken" type="DateTime" not-null="false" /> 
+    </class>
+</hibernate-mapping>

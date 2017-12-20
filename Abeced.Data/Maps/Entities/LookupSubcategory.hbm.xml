@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Abeced.Data" assembly="Abeced.Data">
+    <class name="LookupSubcategory" table="abeced.lookup_subcategory" >
+        <id name="Subcatid" column="subcatid" type="String" length="50" >
+            <generator class="assigned" />
+        </id>
+        <property name="CatTitle" column="cat_title" type="String" not-null="true" length="200" /> 
+        <property name="Lastupdate" column="lastupdate" type="DateTime" not-null="false" /> 
+        <property name="CatLevel" column="cat_level" type="Int32" not-null="false" /> 
+        <property name="Tags" column="tags" type="String" not-null="false" /> 
+        <property name="LearnerCount" column="learner_count" type="Int64" not-null="false" /> 
+        <property name="CourseLength" column="course_length" type="double" not-null="false" /> 
+        <property name="CatImage" column="cat_image" type="String" not-null="false" /> 
+        <many-to-one name="LookupSubcategoryMember" class="LookupSubcategory" not-null="false" >
+            <column name="parentid" />
+        </many-to-one>
+        <many-to-one name="LookupCategory" class="LookupCategory" not-null="true" >
+            <column name="catid" />
+        </many-to-one>
+        <bag name="LookupSubcategoryList" inverse="true" cascade="all-delete-orphan" lazy="true" >
+            <key>
+                <column name="parentid" />
+            </key>
+            <one-to-many class="LookupSubcategory" />
+        </bag>
+    </class>
+</hibernate-mapping>

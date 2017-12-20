@@ -1,0 +1,528 @@
+﻿@model Abeced.UI.Models.FlashCardModel
+ @using (Ajax.BeginForm("EditCard", "Admin",
+            new AjaxOptions
+            {
+                HttpMethod = "Post",
+                UpdateTargetId = "targetDivMsg",
+                OnSuccess = "OnSuccessMsg",
+                OnFailure = "OnFailureMsg",
+                InsertionMode = InsertionMode.Replace
+            },
+            new
+            {
+                enctype = "multipart/form-data",
+                @id = "submitformC"
+            }))
+ {
+    @Html.ValidationSummary(true)
+
+    <div style="text-align: center">
+        <table width="100%" cellspacing="0" style="margin: 0 auto; text-align: left">
+            <tr>
+                <td colspan="3" style="text-align: center" valign="middle">
+
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <table cellpadding="10" cellspacing="10" style="border-radius: 5px 5px 5px 5px; border: 1px solid #CCCCCC;
+                        margin-top: 5px">
+                        <tr align="left">
+                            <td colspan="2">
+                                <span style="font-weight: bold">All (*) are Mandatory Fields.</span> 
+                                <br /><br />
+                                <span style="font-weight: bold">Only image (JPEG, PNG, GIF)  and audio (MP3) media files can be uploaded.</span> 
+                                <br /><br />
+                                <span style="font-weight: bold">New uploads will overwrite existing files.</span> 
+                            </td>
+                        </tr>
+                        <tr align="left">
+                            <td colspan="2">
+                                <hr style="color: #77BACE; margin: -2px 0 -8px 0;" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" valign="middle">
+                                <table cellpadding="2" cellspacing="5" style="width: 640px; border: none; margin-left: 0px">
+                                    <tbody style="border: 0px">
+                                        <tr>
+                                            <td style="text-align: right; width: 280px; color: #1B548D; font-weight: bold" valign="top">
+                                                * Category
+                                            </td>
+                                            <td>
+                                            @(Html.Kendo().ComboBox()
+            .Name("subjectCat")
+        .Placeholder("Select the Subject Category...")
+                  .DataTextField("ctitle")
+          .DataValueField("catid")
+          
+          //.Text()
+          .DataSource(source =>
+          {
+              source.Read(read =>
+              {
+                  read.Action("GetCategoryList", "Admin");
+              })
+              
+              .ServerFiltering(true);
+          })
+        .Value(ViewData["pcat"].ToString())
+        .HtmlAttributes(new { @style = "width:280px; height:22px" })
+        .Suggest(true)
+          //.AutoBind(false)
+    )<br /><br />
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="text-align: right; width: 280px; color: #1B548D; font-weight: bold" valign="top">
+                                                * Subject Area
+                                            </td>
+                                            <td>
+                                            @(Html.Kendo().ComboBoxFor(m => m.SubjectArea)
+//.Name("SubjectArea")
+.Placeholder("Select the Subject Area...")
+.DataTextField("sctitle")
+.DataValueField("scatid")
+          .DataSource(source =>
+          {
+              source.Read(read =>
+              {
+                  read.Action("GetSubjectList", "Admin")
+                      .Data("filterSubArea");
+              })
+              .ServerFiltering(true);
+          })
+.HtmlAttributes(new { @style = "width:300px;" })
+        .Events(e =>
+        {
+            //e.Change("supselectchange");
+            //e.Select("suptypeselectCo");
+            // e.Close("suptypecloseCo");
+        })
+        .Suggest(true)
+        .Enable(false)
+         .AutoBind(false)
+.CascadeFrom("subjectCat").HtmlAttributes(new { @style = "width:280px; height:25px" })
+    )
+      
+                                                @*<script type="text/javascript">
+    $(function () {
+        var input = $("#SubjectArea"),
+                            combobox = input.data("kendoComboBox"),
+                            validator = input.closest("form").kendoValidator().data("kendoValidator");
+        combobox.input.bind({
+            focusout: function () {
+                setTimeout(function () {
+                    //  window.validator.validateInput(input);
+                    validator.validateInput(input);
+                }, 100);
+            }
+        });
+    });
+    </script>*@
+          
+                    <br />
+                    &nbsp; @(Html.ValidationMessageFor(model => model.SubjectArea))
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="text-align: right; width: 280px; color: #1B548D; font-weight: bold" valign="top">
+                                                * Question
+                                            </td>
+                                            <td>
+                                               
+                                                <div class="uploadclass">
+                                                    @Html.TextAreaFor(m => m.Question, new { @style = "width: 420px;height:40px;border: 1px solid #77BACE;" })
+                                                    @Html.HiddenFor(m => m.CardId)
+                                                    <div class="media_ctls">
+
+                                                        @{ if (Model.QuestionAudio != null || Model.QuestionImage != null)
+                                                         {
+
+
+                                                            <ul class="alert alert-info ques_media_ctl" style="list-style:none; margin:3px auto 3px auto; padding:4px ">
+                                                                @{ if (Model.QuestionImage != null)
+                                                                 {
+
+                                                                <li class="imagefile_li">
+                                                                    <input type="hidden" value="@Model.QuestionImage" class="imagefile" />
+                                                                    <a class="viewimage" href="javascript:;"> <b>[&nbsp;View&nbsp;]</b></a> &nbsp;&nbsp; <a href="#">
+                                                                        <img src="~/Content/icons/delete.png" class="deleteImage" />
+                                                                    </a>&nbsp;&nbsp; Question Image
+                                                                </li>
+                                                                 }
+                                                                }
+                                                                @{if (Model.QuestionAudio != null)
+                                                                {
+
+                                                                <li class="audiofile_li">
+                                                                    <input type="hidden" value="@Model.QuestionAudio" class="audiofile" />
+                                                                    <a class="playaudio" href="javascript:;"> <b>[&nbsp;Play&nbsp;&nbsp;]</b></a>  &nbsp; &nbsp;<a href="#">
+                                                                        <img src="~/Content/icons/delete.png" class="deleteAudio" />
+                                                                    </a>&nbsp;&nbsp; Question Audio
+                                                                </li>
+                                                                }
+                                                                }
+                                                            </ul>
+                                                         }
+                                                        }
+                                                    </div>
+
+
+
+                                                    @(Html.Kendo().Upload()
+                                                    .Name("Quesfiles")
+                                                    .Events(events => events
+                                                    .Select("onSelectLimitFile")
+
+                                                    )
+         //.HtmlAttributes(new { accept = "image/png,image/jpeg,image/gif" })
+                                                    .HtmlAttributes(new { accept = "image/*, audio/mp3" })
+                                                    )
+                                                </div>
+
+
+
+                                                @Html.ValidationMessageFor(m => m.Question)
+                                                
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: right; width: 280px; color: #1B548D; font-weight: bold" valign="top">
+                                                * Answer</td>
+                                            <td>
+                                                <div class="uploadclass">
+                                                    @Html.TextAreaFor(m => m.Answer, new { @style = "width: 420px;height:40px;border: 1px solid #77BACE;" })
+                                                    <div class="media_ctls">
+
+                                                        @{ if (Model.AnswerImage != null || Model.AnswerAudio != null)
+                                                         {
+
+
+                                                            <ul class="alert alert-info ques_media_ctl" style="list-style:none; margin:3px auto 3px auto; padding:4px ">
+                                                                @{ if (Model.AnswerImage != null)
+                                                                 {
+
+                                                                <li class="imagefile_li">
+                                                                    <input type="hidden" value="@Model.AnswerImage" class="imagefile" />
+                                                                    <a class="viewimage" href="javascript:;"> <b>[&nbsp;View&nbsp;]</b></a> &nbsp;&nbsp; <a href="#">
+                                                                        <img src="~/Content/icons/delete.png" class="deleteImage" />
+                                                                    </a>&nbsp;&nbsp; Question Image
+                                                                </li>
+                                                                 }
+                                                                }
+                                                                @{if (Model.AnswerAudio != null)
+                                                                {
+
+                                                                <li class="audiofile_li">
+                                                                    <input type="hidden" value="@Model.AnswerAudio" class="audiofile" />
+                                                                    <a class="playaudio" href="javascript:;"> <b>[&nbsp;Play&nbsp;&nbsp;]</b></a>  &nbsp; &nbsp;<a href="#">
+                                                                        <img src="~/Content/icons/delete.png" class="deleteAudio" />
+                                                                    </a>&nbsp;&nbsp; Question Audio
+                                                                </li>
+                                                                }
+                                                                }
+                                                            </ul>
+                                                         }
+                                                        }
+                                                    </div>
+
+                                                    @(Html.Kendo().Upload()
+                                                        .Name("Ansfiles")
+                                                        .Events(events => events
+                                                        .Select("onSelectLimitFile")
+
+                                                        )
+                                                        .HtmlAttributes(new { accept = "image/*, audio/mp3" })
+
+                                                    )
+                                                </div>
+
+                                                @Html.ValidationMessageFor(m => m.Answer)
+                                                </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: right; width: 280px; color: #1B548D; font-weight: bold" valign="top">
+                                                * Fact Sheet
+                                            </td>
+                                            <td>
+                                               @* @(Html.Kendo().EditorFor(m => m.MsgText).Encode(true)  
+                                                  .HtmlAttributes(new { style = "width: 600px;height:300px" })                                                
+                                            )*@
+                                                <div class="uploadclass">
+                                                        @Html.TextAreaFor(m => m.FactSheet, new { @style = "width: 420px;height:80px;border: 1px solid #77BACE;" })
+                                                       <div class="media_ctls">
+
+                                                        @{ if (Model.FactAudio != null || Model.FactImage != null)
+                                                         {
+                                                            
+
+                                                            <ul class="alert alert-info ques_media_ctl" style="list-style:none; margin:3px auto 3px auto; padding:4px ">
+                                                                @{ if (Model.FactImage != null)
+                                                                 {
+                                                                     
+                                                                <li class="imagefile_li">
+                                                                    <input type="hidden" value="@Model.FactImage" class="imagefile" />
+                                                                    <a class="viewimage" href="javascript:;"> <b>[&nbsp;View&nbsp;]</b></a> &nbsp;&nbsp; <a href="#">
+                                                                        <img src="~/Content/icons/delete.png" class="deleteImage" />
+                                                                    </a>&nbsp;&nbsp; Question Image
+                                                                </li>
+                                                                 }
+                                                                 }
+                                                                @{if (Model.FactAudio != null)
+                                                                {
+
+                                                                    <li class="audiofile_li">
+                                                                        <input type="hidden" value="@Model.FactAudio" class="audiofile" />
+                                                                        <a class="playaudio" href="javascript:;"> <b>[&nbsp;Play&nbsp;&nbsp;]</b></a>  &nbsp; &nbsp;<a href="#">
+                                                                            <img src="~/Content/icons/delete.png" class="deleteAudio" onclick="javascript:;" />
+                                                                        </a>&nbsp;&nbsp; Question Audio
+                                                                    </li>
+                                                                }
+                                                                }
+                                                            </ul>
+                                                         }
+                                                        }
+                                                    </div>
+
+                                                        @(Html.Kendo().Upload()
+                                                        .Name("Factfiles")
+                                                        .Events(events => events
+                                                        .Select("onSelectLimitFile")
+
+                                                        )
+                                                        .HtmlAttributes(new { accept = "image/*, audio/mp3" })
+
+                                                        )
+                                                    </div>
+                                                    @Html.ValidationMessageFor(m => m.FactSheet)
+
+</td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr align="left">
+               
+                <td align="center" colspan="2">
+                    <div id="targetDivMsg" class="rssedMsg">
+                    </div>
+                    
+                    <div id="divAudio_Player" style="display:none">
+                        <audio id="audio_player">
+                            <source id="audio_player_mp3" src="/audios/tck1.mp3" type="audio/mpeg" />
+                        </audio>
+                    </div>
+                    
+
+                </td>
+            </tr>
+            <tr align="left">
+                <td align="left" style="padding-bottom: 10px">
+                    <label for="name" style="color: Black">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                </td>
+                <td align="center" style="padding-bottom: 12px">
+                    <hr />
+                    <button class="k-button" id="btnSubmitMsg" name="btnSubmitMsg" type="submit" style="width: 150px;
+                        font-weight: bold; font-size: 12px;">
+                        Save
+                    </button>
+
+
+                    <button class="k-button" id="btnCloseMsg" name="btnCloseMsg" style="width: 150px;
+                        font-weight: bold; font-size: 12px">
+                        Close</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+ }
+
+<script type="text/javascript">
+
+    $("#Quesfiles").closest(".k-upload").find("span").text("Upload media").parent().css({ width: 160 })
+    $("#Ansfiles").closest(".k-upload").find("span").text("Upload media").parent().css({ width: 160 });
+    $("#Factfiles").closest(".k-upload").find("span").text("Upload media").parent().css({ width: 160 });
+
+    $('.playaudio').click(function () {
+        //var new_audio = $(this).attr('rel');
+        var new_audio = $(this).closest('.media_ctls').find('input.audiofile[type="hidden"]').val();
+        var source = '<audio id="audio_player">';
+        source += '<source id="audio_player_ogv" src="/' + new_audio + '"  type="audio/mpeg" />';
+        source += '</audio>';
+
+        $('#divAudio_Player').html(source);
+
+        var aud = $('#audio_player').get(0);
+        aud.play();
+    });
+
+    $('.deleteAudio').click(function (e) {
+        e.preventDefault();
+        var cardid = $('#CardId').val();        
+        var new_audio = $(this).closest('.media_ctls').find('input.audiofile[type="hidden"]').val();
+        var li_obj = $(this).closest('.media_ctls').find('.imagefile_li');
+
+        var answer = confirm("Are You sure you want to DELETE this audio associated with this Flash Card?");
+        if (answer) {
+            $.ajax({
+                type: "POST",
+                data: { CardId: cardid, audiofile: new_audio },
+                dataType: "json",
+                url: '/Admin/DeleteCardAudio/',
+                success: function (data) {
+
+                    if (data.delans == true) {
+                        li_obj.hide();
+                    }
+                    else {
+                        alert('Error : ');
+                    }
+                },
+                error: function (data) {
+                    alert('Error : ');
+                }
+
+            });
+        }
+    });
+
+    $(".viewimage").click(function (e) {
+        e.preventDefault();
+        var new_img = $(this).closest('.media_ctls').find('input.imagefile[type="hidden"]').val();
+        $("#windowmsg").append("<div id='getmsgwindow'></div>");
+
+        var wnd2 = $("#getmsgwindow").kendoWindow({
+            //actions: ["Close"],
+            draggable: true,
+            modal: true,
+            animation: false,
+            resizable: true,
+            width: 520,
+            height: 380,
+            actions: ["Maximize", "Close"],
+
+            title: "Image",
+            // close: onClose,
+            deactivate: function () {
+                this.destroy();
+            }
+
+        }).data("kendoWindow");
+        wnd2.content("<img src='/" + new_img + "' />");
+        wnd2.center().open();
+    });
+
+    $('.deleteImage').click(function (e) {
+        e.preventDefault();
+        var new_img = $(this).closest('.media_ctls').find('input.imagefile[type="hidden"]').val();
+        var cardid = $('#CardId').val();
+        var li_obj = $(this).closest('.media_ctls').find('.imagefile_li');
+        
+        var answer = confirm("Are You sure you want to DELETE this image associated with this Flash Card?");
+        if (answer) {
+            $.ajax({
+                type: "POST",
+                data: { CardId: cardid, imagefile: new_img },
+                dataType: "json",
+                url: '/Admin/DeleteCardImage/',
+                success: function (data) {
+
+                    if (data.delans == true) {
+                        li_obj.hide();
+                    }
+                    else {
+                        alert('Error : ');
+                    }
+                },
+                error: function (data) {
+                    alert('Error : ');
+                }
+
+            });
+        }
+    });
+
+    $("#btnCloseMsg").click(function (e) {
+        e.preventDefault();
+
+        $(".k-window-content").each(function () {
+            $(this).data("kendoWindow").close();
+        });
+    });
+
+
+    $("#submitformC").kendoValidator({
+        rules: {
+            //implement custom validation here      
+        },
+    });
+
+    //workaround to post images
+    $(function () {
+        $("#submitformC").submit(function (event) {
+            var dataString;
+            event.preventDefault();
+            event.stopPropagation();
+            var action = $("#submitformC").attr("action");
+            if ($("#submitformC").attr("enctype") == "multipart/form-data") {
+                //this only works in some browsers.
+                //purpose? to submit files over ajax. because screw iframes.
+                //also, we need to call .get(0) on the jQuery element to turn it into a regular DOM element so that FormData can use it.
+                dataString = new FormData($("#submitformC").get(0));
+                contentType = false;
+                processData = false;
+            } else {
+                // regular form, do your own thing if you need it
+            }
+            $.ajax({
+                type: "POST",
+                url: action,
+                data: dataString,
+                dataType: "json", //change to your own, else read my note above on enabling the JsonValueProviderFactory in MVC
+                contentType: contentType,
+                processData: processData,
+                success: function (rtnmsgg) {
+                    //BTW, data is one of the worst names you can make for a variable
+                    OnSuccessMsgg(rtnmsgg);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    //do your own thing
+                    alert("fail");
+                }
+            });
+        }); //end .submit()
+    });
+
+    function OnSuccessMsgg(ajaxContext) {
+        $('#targetDivMsg').empty();
+        var response = ajaxContext.rtnmsg;
+        var smsg = ajaxContext.msg;
+        if (response == "success") {
+            $('<span class="alert alert-success" style="display: block;font-size: 120%"><b>Success : Flash Card Updated Successfully. </b> </span>').appendTo('.rssedMsg');
+            $("#btnSubmitMsg").hide();
+            var grid = $("#FlashCards").data("kendoGrid");
+            grid.dataSource.read();
+            grid.refresh();
+
+        }
+        else if (response == "fail") {
+            $('<span class="alert alert-error" style="display: block;font-size: 120%"><b>Error: Unable to Save. Please try Again</b> </span>').appendTo('.rssedMsg');
+        }
+        else {
+            $('<span class="alert alert-error" style="display: block;font-size: 120%"><b>Unknown Error: Please try Again</b> </span>').appendTo('.rssedMsg');
+        }
+    }
+
+
+
+</script>

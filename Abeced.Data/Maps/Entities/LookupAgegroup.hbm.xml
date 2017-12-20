@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Abeced.Data" assembly="Abeced.Data">
+    <class name="LookupAgegroup" table="abeced.lookup_agegroup" >
+        <id name="Agroupid" column="agroupid" type="Int32" >
+            <generator class="assigned" />
+        </id>
+        <property name="Agegroup" column="agegroup" type="String" not-null="true" length="10" /> 
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,153 @@
+﻿@model Abeced.UI.Models.CategoryListModel
+@using System.Linq
+@using System.Data
+@using Kendo.Mvc.UI
+@{
+    //ViewBag.Title = "Test";
+    //Layout = "~/Views/Shared/_LayoutProfile.cshtml";
+    Layout = Url.Content("../Shared/_CourseLayout.cshtml");
+}
+@* <link href="~/Content/category.css" rel="stylesheet" />*@
+@section LessCssSection{
+<link href="~/Content/abeced.css" rel="stylesheet" />
+<link href="~/Content/menu.css" rel="stylesheet" />
+    }
+     
+
+
+@section HeaderSection {
+    
+    <div class="container parallax-layer" data-opacity="true">
+        <div class="media v-middle">
+            <div class="media-body">
+                <h1 class="text-display-2 margin-none">Library</h1>
+                <p class="text-light lead">Browse through thousands of lessons and courses from the community.</p>
+            </div>
+            <div class="media-right">
+                <div class="width-100 text-right">
+                    <div class="btn-group">
+                        <a class="btn btn-grey-900" href="#"><i class="fa fa-th"></i></a>
+                        <a class="btn btn-white" href="#"><i class="fa fa-list"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@{
+    Abeced.Data.Repository.IRepository _repos = new Abeced.Data.Repository.Repository();
+    List<Abeced.Data.LookupCategory> catmm = _repos.GetCategoryList().OrderBy(m => m.CatTitle).ToList();
+}
+
+@section CourseCategorySection{
+
+<div class="">
+
+
+    <h3 class="category-header">Course Categories</h3>
+    <ul data-role="tree-navigation" class="categories-list">
+
+        @{
+            foreach (var item in catmm)
+            {
+                <li data-category-id="@item.Catid">
+                    
+
+                    <a class="tree-toggler list-group-item" title="@item.CatTitle" href="@Url.Content("~/Flash/GetTopics/?type="+Model.AppType+"&cid=" + item.Catid + "&sub=" + item.CatTitle)">
+
+                        <span class="ico expand-icon ico-s"></span>
+
+                        @item.CatTitle <span class="badge pull-right" style="margin-top: -20px">0+</span>
+                    </a>
+                    @if (item.LookupSubcategoryList.Where(m => m.CatLevel == 1).Count() != 0)
+                    {
+                    <ul class="tree2">
+
+                        @foreach (var menu in item.LookupSubcategoryList.Where(m => m.CatLevel == 1))
+                        {
+
+                            <li>
+                                <a class="mnul2" href="@Url.Content("~/Flash/GetTopics/?type=" + Model.AppType + "&cid=" + menu.Subcatid)" data-category-id="@menu.Subcatid" data-ftype="@Model.AppType">
+
+                                    @menu.CatTitle
+
+                                </a>
+                                <ul class="tree">
+
+                                    @foreach (var menu2 in menu.LookupSubcategoryList.Where(m => m.CatLevel == 2))
+                                    {
+
+                                        <li>
+                                            <a class="mnul2" href="@Url.Content("~/Flash/GetTopics/?type=" + Model.AppType + "&cid=" + menu2.Subcatid)" data-category-id="@menu2.Subcatid" data-ftype="@Model.AppType">
+
+                                                @menu2.CatTitle
+
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                    }
+
+                </li>
+
+            }
+        }
+
+
+    </ul>
+
+
+
+
+
+
+</div>
+
+    }
+
+
+
+@using (Ajax.BeginForm("Topics", "Flash", new AjaxOptions()
+{
+    HttpMethod = "GET",
+    UpdateTargetId = "post_courses",
+    InsertionMode = InsertionMode.Replace
+}))
+{
+    
+    <div class="row" data-toggle="isotope" >
+        
+
+            @*<h2 class="courses-heading courses-heading-intro">ABECED Courses & Subjects</h2>*@
+            <div id="post_courses">
+                @Html.Partial("_CoursesList", Model)
+            </div>
+            @*<div data-role="infinite-scrolling-pagination">
+
+        <div data-role="infinite-scrolling-pagination">
+            <div class="infinite-scroller" style="display: block;">
+                <span class="infinite-scroller-loader loading-spinner" style="display: none;"></span>
+                <a class="infinite-scroller-trigger" href="#">
+                    <span class="ico ico-loop"></span>
+                    Load more... <div class="row" data-toggle="isotope">
+                </a>
+            </div>
+        </div>
+    </div>*@
+    </div>
+
+                    }
+
+@section footerscript{
+    <script src="~/Scripts/abeced_menu.js"></script>
+}
+@*<script src="@Url.Content("~/Scripts/kendo/kendo.web.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/kendo/kendo.aspnetmvc.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>*@

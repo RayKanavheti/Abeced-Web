@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EA516B61-9914-4E82-9345-80C57697F08A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Abeced.Data</RootNamespace>
+    <AssemblyName>Abeced.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Debug\Abeced.Data.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\..\CodeSmith Generator\Samples\v6.5\Templates\Frameworks\PLINQO-NHibernate-1.2\Common\NHibernate\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="CodeSmith.Data">
+      <HintPath>bin\Debug\CodeSmith.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="CodeSmith.Data.NHibernate">
+      <HintPath>bin\Debug\CodeSmith.Data.NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\..\..\CodeSmith Generator\Samples\v6.5\Templates\Frameworks\PLINQO-NHibernate-1.2\Common\NHibernate\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Npgsql.2.2.5\lib\net45\Mono.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NauckIT.PostgreSQLProvider">
+      <HintPath>..\packages\NauckIT.PostgreSQLProvider.2.0.0\lib\NauckIT.PostgreSQLProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>bin\Debug\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.ByteCode.Castle">
+      <HintPath>..\..\..\CodeSmith Generator\Samples\v6.5\Templates\Frameworks\PLINQO-NHibernate-1.2\Common\NHibernate\NHibernate.ByteCode.Castle.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql, Version=2.2.5.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Npgsql.2.2.5\lib\net45\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbecedDataContext.cs" />
+    <Compile Include="AbecedDataContext.generated.cs">
+      <DependentUpon>AbecedDataContext.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\AllCard.cs" />
+    <Compile Include="Entities\AllCard.generated.cs">
+      <DependentUpon>AllCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\CardRevision.cs" />
+    <Compile Include="Entities\CardRevision.generated.cs">
+      <DependentUpon>CardRevision.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Cardsession.cs" />
+    <Compile Include="Entities\Cardsession.generated.cs">
+      <DependentUpon>Cardsession.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Flashcard.cs" />
+    <Compile Include="Entities\Flashcard.generated.cs">
+      <DependentUpon>Flashcard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Invitation.cs" />
+    <Compile Include="Entities\Invitation.generated.cs">
+      <DependentUpon>Invitation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\LookupAgegroup.cs" />
+    <Compile Include="Entities\LookupAgegroup.generated.cs">
+      <DependentUpon>LookupAgegroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\LookupCategory.cs" />
+    <Compile Include="Entities\LookupCategory.generated.cs">
+      <DependentUpon>LookupCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\LookupEducLevel.cs" />
+    <Compile Include="Entities\LookupEducLevel.generated.cs">
+      <DependentUpon>LookupEducLevel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\LookupRevisetime.cs" />
+    <Compile Include="Entities\LookupRevisetime.generated.cs">
+      <DependentUpon>LookupRevisetime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\LookupSubcategory.cs" />
+    <Compile Include="Entities\LookupSubcategory.generated.cs">
+      <DependentUpon>LookupSubcategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Messageofday.cs" />
+    <Compile Include="Entities\Messageofday.generated.cs">
+      <DependentUpon>Messageofday.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\PasswordReset.cs" />
+    <Compile Include="Entities\PasswordReset.generated.cs">
+      <DependentUpon>PasswordReset.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Person.cs" />
+    <Compile Include="Entities\Person.generated.cs">
+      <DependentUpon>Person.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\QuizScore.cs" />
+    <Compile Include="Entities\QuizScore.generated.cs">
+      <DependentUpon>QuizScore.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EntityBase.cs" />
+    <Compile Include="EntityBase.generated.cs">
+      <DependentUpon>EntityBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\AllCard.cs" />
+    <Compile Include="Queries\AllCard.generated.cs">
+      <DependentUpon>AllCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Queries\CardRevision.cs" />
+    <Compile Include="Queries\CardRevision.generated.cs">
+      <DependentUpon>CardRevision.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Queries\Cardsession.cs" />
+    <Compile Include="Queries\Cardsession.generated.cs">
+      <DependentUpon>Cardsession.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Queries\Flashcard.cs" />
+    <Compile Include="Queries\Flashcard.generated.cs">
+      <DependentUpon>Flashcard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Queries\Invitation.cs" />
+    <Compile Include="Queries\Invitation.generated.cs">
+      <DependentUpon>Invitation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Queries\LookupAgegroup.cs" />
+    <Compile Include="Queries\LookupAgegroup.generated.cs">
+      <DependentUpon>LookupAgegroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Queries\LookupCategory.cs" />
+    <Compile Include="Queries\LookupCategory.generated.cs">
+      <DependentUpon>LookupCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Queries\LookupEducLevel.cs" />
+    <Compile Include="Queries\LookupEducLevel.generated.cs">
+      <DependentUpon>LookupEducLevel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Queries\LookupRevisetime.cs" />
+    <Compile Include="Queries\LookupRevisetime.generated.cs">
+      <DependentUpon>LookupRevisetime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Queries\LookupSubcategory.cs" />
+    <Compile Include="Queries\LookupSubcategory.generated.cs">
+      <DependentUpon>LookupSubcategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Queries\Messageofday.cs" />
+    <Compile Include="Queries\Messageofday.generated.cs">
+      <DependentUpon>Messageofday.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Queries\PasswordReset.cs" />
+    <Compile Include="Queries\PasswordReset.generated.cs">
+      <DependentUpon>PasswordReset.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Queries\Person.cs" />
+    <Compile Include="Queries\Person.generated.cs">
+      <DependentUpon>Person.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Queries\QuizScore.cs" />
+    <Compile Include="Queries\QuizScore.generated.cs">
+      <DependentUpon>QuizScore.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="Repository\Repository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Entities.csp">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Maps\Entities\AllCard.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Maps\Entities\CardRevision.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Maps\Entities\Flashcard.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Maps\Entities\Invitation.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Maps\Entities\LookupAgegroup.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Maps\Entities\LookupCategory.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Maps\Entities\LookupEducLevel.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Maps\Entities\Messageofday.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Maps\Entities\Person.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DatabaseSchema.sql" />
+    <EmbeddedResource Include="Maps\Entities\Messageofday.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Maps\Entities\LookupRevisetime.hbm.xml" />
+    <EmbeddedResource Include="Maps\Entities\QuizScore.hbm.xml" />
+    <EmbeddedResource Include="Maps\Entities\Cardsession.hbm.xml" />
+    <EmbeddedResource Include="Maps\Entities\PasswordReset.hbm.xml" />
+    <EmbeddedResource Include="Maps\Entities\LookupSubcategory.hbm.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

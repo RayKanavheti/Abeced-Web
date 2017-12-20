@@ -1,0 +1,37 @@
+shared buffers 0.25 * 10  = 2560MB
+
+/proc/sys/kernel/shmmax   =  2560*2*1024 = 5368709120
+
+/proc/sys/kernel/shmall  = 33554432
+
+persit to /etc/sysctl.conf
+
+
+work_mem   [Memory / max_connections]  = 10GB/500
+28MB
+
+maintenance_work_mem
+Units: kB
+Recommended: Available Memory / 8
+
+
+checkpoint_segments
+Recommended: 16 to 128
+
+effective_cache_size
+Recommended: Available Memory * 0.75   = 4096
+
+CPU Operation Costs
++++++++++++++++++++++++++
+random_page_cost = 0.08                 # same scale as above
+cpu_tuple_cost = 0.003                  # same scale as above
+cpu_index_tuple_cost = 0.001            # same scale as above
+cpu_operator_cost = 0.0005 
+
+
+[client]
+user=root
+password=neptune@3005$
+
+
+mysqldump -u root -p -T/tmp/medleytables  medley

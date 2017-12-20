@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Abeced.Data" assembly="Abeced.Data">
+    <class name="AllCard" table="abeced.all_cards" >
+        <id name="IndCardId" column="ind_card_id" type="String" length="50" >
+            <generator class="assigned" />
+        </id>
+        <property name="CsessionId" column="csession_id" type="String" not-null="true" length="50" /> 
+        <property name="FlashcardId" column="flashcard_id" type="String" not-null="false" length="50" /> 
+        <property name="CorrectAnswer" column="correct_answer" type="Boolean" not-null="true" /> 
+        <property name="ElapseTime" column="elapse_time" type="Double" not-null="false" /> 
+        <property name="RevisionOrder" column="revision_order" type="String" not-null="false" length="10" /> 
+    </class>
+</hibernate-mapping>
+

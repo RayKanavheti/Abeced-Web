@@ -1,0 +1,119 @@
+﻿@model Abeced.UI.Models.CategoryListModel
+
+@{ 
+    string[] bg = { "bg-lightred","bg-primary", "bg-purple", "bg-pink-400 text-white" };
+    var i = 0;
+}
+<div data-role="infinite-scrolling-content" class="clear">
+
+    <div class="row-fluid">
+        @{
+            foreach (var item in Model.Categories)
+            {
+                @*<div class="item col-xs-12 col-sm-6 col-lg-3" style="max-height:300px; min-height:300px; overflow:hidden">
+                    <div class="panel panel-default paper-shadow" data-z="0.5">
+
+                        <div class="cover overlay cover-image-full hover">
+                            <span class="img icon-block height-100 @bg[i%4]"></span>
+                            <a href="@Url.Content("~/Flash/SelectCards?type="+Model.AppType+"&mcat="+Model.McatId+"&cid=" + item.CatId + "&sub=" + item.CategoryTitle)" class="padding-none overlay overlay-full icon-block @bg[i%4]">
+                                <span class="v-center">
+                                    <i class="fa fa-graduation-cap fa-3x"></i>
+                                </span>
+                            </a>
+
+                            <a href="@Url.Content("~/Flash/SelectCards?type="+Model.AppType+"&mcat="+Model.McatId+"&cid=" + item.CatId + "&sub=" + item.CategoryTitle)" class="overlay overlay-full overlay-hover overlay-bg-white">
+                                <span class="v-center">
+                                    <span class="btn btn-circle btn-primary btn-lg"><i class="fa fa-graduation-cap"></i></span>
+                                </span>
+                            </a>
+
+                        </div>
+
+                        <div class="panel-body">
+                            <h4 class="text-headline margin-v-0-10"><a href="@Url.Content("~/Flash/SelectCards?type="+Model.AppType+"&mcat="+Model.McatId+"&cid=" + item.CatId + "&sub=" + item.CategoryTitle)">@item.CategoryTitle</a></h4>
+
+                            <p class="small margin-none">
+                                <span class="fa fa-fw fa-star text-yellow-800"></span>
+                                <span class="fa fa-fw fa-star text-yellow-800"></span>
+                                <span class="fa fa-fw fa-star text-yellow-800"></span>
+                                <span class="fa fa-fw fa-star-o text-yellow-800"></span>
+                                <span class="fa fa-fw fa-star-o text-yellow-800"></span>
+                            </p>
+
+                        </div>
+                        <hr class="margin-none" />
+                        <div class="panel-body">
+
+                            <p><a title="@item.ParentCatTile" class="category" href="@Url.Content("~/Flash/GetTopics/?type=" + Model.AppType + "&cid=" + item.ParentId)">@item.ParentCatTile</a></p>
+
+                            <div class="media v-middle">
+                                <div class="media-left">
+                                    <img src="images/people/50/guy-2.jpg" alt="People" class="img-circle width-40" />
+                                </div>
+                                <div class="media-body">
+                                    <h4>
+                                        <a href="">Adrian Demian</a>
+                                        <br />
+                                    </h4>
+                                    Instructor
+                                </div>
+                            </div>*
+
+                        </div>
+
+                    </div>
+                </div>*@
+
+                <div class="course-box-wrapper span4">
+                    <div class="course-box ">
+                        <div class="inner-wrap">
+                            <a class="picture-wrapper" href="@Url.Content("~/Flash/SelectCards?type="+Model.AppType+"&mcat="+Model.McatId+"&cid=" + item.CatId + "&sub=" + item.CategoryTitle)">
+                                <img alt="@item.CategoryTitle" src="@Url.Content("~/"+item.CategoryImage+"")">
+                            </a>
+                            <div class="details-wrapper">
+
+                                
+                                <div class="clearfix">
+                                    <span class="author pull-right">
+
+
+                                        by
+                                        <a class="author-link" data-direction="bottom" data-user-id="abeced2016" data-role="hovercard" href="#">ABECED</a>
+
+
+                                    </span>
+                                    <a title="@item.ParentCatTile" class="category" href="@Url.Content("~/Flash/GetTopics/?type="+Model.AppType+"&cid=" + item.ParentId)">@item.ParentCatTile</a>
+
+                                </div>
+                                <h3 style="font-size:13px">
+                                    <a title="@item.CategoryTitle" class="inner" href="@Url.Content("~/Flash/SelectCards?type="+Model.AppType.ToString()+"&mcat="+Model.McatId+"&cid=" + item.CatId + "&sub=" + item.CategoryTitle)">
+                                        @item.CategoryTitle
+                                    </a>
+                                </h3>
+
+                                <div class="details">
+
+                                    <div class="row-fluid stats">
+                                        <span title="@item.NumOfLearners.ToString()k people are learning this course" class="stat">
+                                            <span class="ico ico-user"></span> @item.NumOfLearners.ToString()k
+                                        </span>
+                                        <span title="This study takes about @item.CourseDuration.ToString()h" class="stat">
+                                            <span class="ico ico-clock"></span> @item.CourseDuration.ToString()h
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                //i++;
+            }
+        }
+
+
+    </div>
+    
+</div>
+

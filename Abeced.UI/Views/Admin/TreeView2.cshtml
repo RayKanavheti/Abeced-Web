@@ -1,0 +1,38 @@
+﻿@{
+    Layout = "~/Views/Admin/_LayoutPage1.cshtml";
+}
+<div class="section">
+    <div id="dropDownTreeView">
+    </div>
+    <div id="userSelection" style="margin-top:20px;" class="highlight-section k-block">
+    </div>
+</div>
+
+@section footerscript{
+<script>
+
+    var dropDownTreeView = $("#dropDownTreeView").kendoExtDropDownTreeView({
+        treeview: {
+            dataSource: new kendo.data.HierarchicalDataSource({
+                data: [
+                    {
+                        text: "Furniture", items: [
+                          { text: "Tables & Chairs" },
+                          { text: "Sofas" },
+                          { text: "Occasional Furniture" }
+                        ]
+                    },
+                    {
+                        text: "Decor", items: [
+                          { text: "Bed Linen" },
+                          { text: "Curtains & Blinds" },
+                          { text: "Carpets" }
+                        ]
+                    }
+                ]
+            })
+        }
+    }).data("kendoExtDropDownTreeView");
+</script>
+
+}

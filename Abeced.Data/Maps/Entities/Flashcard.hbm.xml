@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Abeced.Data" assembly="Abeced.Data">
+    <class name="Flashcard" table="abeced.flashcards" >
+        <id name="Identification" column="flashcard_id" type="String" length="128" >
+            <generator class="assigned" />
+        </id>
+        <property name="Question" column="question" type="String" not-null="true" /> 
+        <property name="Answer" column="answer" type="String" not-null="true" /> 
+        <property name="Factsheet" column="factsheet" type="String" not-null="false" /> 
+        <property name="Category" column="category" type="String" not-null="true" length="50" /> 
+        <property name="UploadedBy" column="uploaded_by" type="String" not-null="true" length="50" /> 
+        <property name="UploadDate" column="upload_date" type="DateTime" not-null="true" /> 
+        <property name="Questiontype" column="questiontype" type="String" not-null="false" length="50" /> 
+        <property name="SeriesId" column="series_id" type="String" not-null="false" length="50" /> 
+        <property name="SeriesOrder" column="series_order" type="Int32" not-null="false" /> 
+        <property name="Approvedby" column="approvedby" type="String" not-null="false" length="50" /> 
+        <property name="ApprovedDate" column="approved_date" type="DateTime" not-null="false" /> 
+        <property name="Approved" column="approved" type="Boolean" not-null="false" /> 
+        <property name="FactImage" column="fact_image" type="String" not-null="false" /> 
+        <property name="FactAudio" column="fact_audio" type="String" not-null="false" /> 
+        <property name="QuestionImage" column="question_image" type="String" not-null="false" /> 
+        <property name="AnswerImage" column="answer_image" type="String" not-null="false" /> 
+        <property name="QuestionAudio" column="question_audio" type="String" not-null="false" /> 
+        <property name="AnswerAudio" column="answer_audio" type="String" not-null="false" /> 
+    </class>
+</hibernate-mapping>

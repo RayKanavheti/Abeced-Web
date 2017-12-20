@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Abeced.Data" assembly="Abeced.Data">
+    <class name="CardRevision" table="abeced.card_revisions" >
+        <id name="RevisionId" column="revision_id" type="String" length="50" >
+            <generator class="assigned" />
+        </id>
+        <property name="XmlCarddetails" column="xml_carddetails" type="String" not-null="false" /> 
+        <property name="UpdateDate" column="update_date" type="DateTime" not-null="false" /> 
+        <property name="Completed" column="completed" type="Boolean" not-null="false" /> 
+        <property name="CompletedDate" column="completed_date" type="DateTime" not-null="false" /> 
+        <property name="TimeIn" column="time_in" type="DateTime" not-null="false" /> 
+        <property name="CorrectCards" column="correct_cards" type="String" not-null="false" /> 
+        <property name="WrongCards" column="wrong_cards" type="String" not-null="false" /> 
+        <property name="Revisionslist" column="revisionslist" type="String" not-null="false" /> 
+        <property name="Userid" column="userid" type="String" not-null="false" length="50" /> 
+        <property name="Category" column="category" type="String" not-null="false" length="50" /> 
+        <property name="AskLater" column="ask_later" type="String" not-null="false" /> 
+        <many-to-one name="Cardsession" class="Cardsession" not-null="true" >
+            <column name="csession_id" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

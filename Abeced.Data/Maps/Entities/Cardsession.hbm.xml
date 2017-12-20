@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Abeced.Data" assembly="Abeced.Data">
+    <class name="Cardsession" table="abeced.cardsession" >
+        <id name="CsessionId" column="csession_id" type="String" length="50" >
+            <generator class="assigned" />
+        </id>
+        <property name="Userid" column="userid" type="String" not-null="false" length="50" /> 
+        <property name="TimeIn" column="time_in" type="DateTime" not-null="true" /> 
+        <property name="TimeOut" column="time_out" type="DateTime" not-null="false" /> 
+        <property name="Completed" column="completed" type="Boolean" not-null="false" /> 
+        <property name="CompletedDate" column="completed_date" type="DateTime" not-null="false" /> 
+        <property name="CardsInSession" column="cards_in_session" type="String" not-null="false" /> 
+        <property name="Cardscount" column="cardscount" type="Int32" not-null="false" /> 
+        <property name="Finishedcount" column="finishedcount" type="Int32" not-null="false" /> 
+        <property name="Category" column="category" type="String" not-null="false" length="50" /> 
+        <property name="RevisedLevel" column="revised_level" type="Int32" not-null="true" /> 
+        <property name="AskLater" column="ask_later" type="String" not-null="false" /> 
+        <property name="Lastupdate" column="lastupdate" type="DateTime" not-null="false" /> 
+        <bag name="CardRevisionList" inverse="true" cascade="all-delete-orphan" lazy="true" >
+            <key>
+                <column name="csession_id" />
+            </key>
+            <one-to-many class="CardRevision" />
+        </bag>
+    </class>
+</hibernate-mapping>
